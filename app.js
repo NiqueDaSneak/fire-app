@@ -1,71 +1,51 @@
+"use strict"
+
 var express = require('express');
-var bodyParser = require('body-parser');
 var request = require('request');
+var JsonDB = require('node-json-db');
+var db = new JsonDB("db.js", true, false);
+var logger = require('morgan');
+
 
 var app = express();
 
 
-// Process application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}));
-
-// Process application/json
-app.use(bodyParser.json());
-
-var verify_token = 'my_voice_is_my_password_verify_me';
-var token = "EAAPDMUuxFGcBACRaCUr9iZAVNL0FJtpnZBtJqrHU8jnGgoSdl2JbkDlQVpeBTZBsniEJZAw7Clxod0C17lb6bGNl6ssjQNp3sj4iuZBLFMeH5JhJbPe5Q8flLpLNx9FLZAzBCjS1xTiSd6WEkVgrN54eUpmfnTR0JpnE55wgppJgZDZD";
 
 
-app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
+// SET UP ROUTES
+var landingPage = require('./routes/landingPage');
+app.use('/', landingPage);
 
-	res.send('Hello World! This is the bot\'s root endpoint!');
+var admin = require('./routes/admin');
+app.use('/admin', admin);
 
-});
 
-app.get('/webhook/', function (req, res) {
+var messenger = require('./routes/messenger');
+app.use('bot', messenger);
 
-	if (req.query['hub.verify_token'] === verify_token) {
-		res.send(req.query['hub.challenge']);
-	}
 
-	res.send('Error, wrong validation token');
 
-});
 
-app.post('/webhook/', function (req, res) {
+// MIDDLEWARE
+app.use(logger('short'));
 
-	var messaging_events = req.body.entry[0].messaging;
 
-	for (var i = 0; i < messaging_events.length; i++) {
 
-		var event = req.body.entry[0].messaging[i];
-		var sender = event.sender.id;
+var port = process.env.PORT || 3000;
 
-		if (event.message && event.message.text) {
-			var text = event.message.text;
-			if (text.toLowerCase() === "hello" || "hey") {
-
-				sendGenericMessage(sender);
-				continue
-			}
-		}
-		if (event.postback) {
-			text = JSON.stringify(event.postback);
-			sendTextMessage(sender, "Postback recieved:" + text, token)
-			continue
-		}
-	}
-
-	res.sendStatus(200);
+app.listen(port, function(){
+	console.log('Server running on port ' + port);
 
 });
 
-app.listen(process.env.PORT || 3000, function () {
-
-	console.log('Facebook Messenger echoing bot started on port ' + process.env.PORT + '!');
-
+app.on('error', function(){
+	console.log(error);
 });
+
+module.exports = app;
+module.exports = db
+
 
 // MODULES FOR SENDING MESSAGES
 
