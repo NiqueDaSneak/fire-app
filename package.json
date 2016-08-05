@@ -2,18 +2,21 @@
   "name": "fire-app",
   "version": "1.0.0",
   "description": "Chat bot that serves up video content based on user preference",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node server.js"
   },
   "author": "niquedasneak",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
+    "express-react-views": "^0.10.2",
     "morgan": "^1.7.0",
     "node-json-db": "^0.7.2",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
     "request": "^2.72.0"
   }
 }
