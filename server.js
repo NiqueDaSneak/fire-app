@@ -22,7 +22,7 @@ var landingPage = require('./routes/landingPage');
 app.use('/', landingPage);
 
 var admin = require('./routes/admin');
-app.use('/admin', admin);
+app.get('/admin', admin);
 
 
 var messenger = require('./routes/messenger');
