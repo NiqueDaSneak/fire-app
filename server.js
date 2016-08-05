@@ -97,7 +97,7 @@ module.exports = db
 // MODULES FOR SENDING MESSAGES
 
 function sendGenericMessage(sender) {
-	messageData = {
+	var messageData = {
 		"attachment": {
 			"type": "template",
 			"payload": {
