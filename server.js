@@ -18,23 +18,54 @@ app.engine('jsx', require('express-react-views').createEngine());
 
 
 // SET UP ROUTES
-var landingPage = require('./routes/landingPage');
-app.use('/', landingPage);
+app.get('/', function (req, res) {
+	// res.render('index');
+	res.send('Hello World! This is the bot\'s root endpoint!');
+});
 
-// var admin = require('./routes/admin');
 app.get('/admin', function (req, res) {
 	res.render('admin', { name: 'World' });
 });
 
 
-var messenger = require('./routes/messenger');
-app.use('bot', messenger);
+var verify_token = 'my_voice_is_my_password_verify_me';
+var token = "EAAPDMUuxFGcBACRaCUr9iZAVNL0FJtpnZBtJqrHU8jnGgoSdl2JbkDlQVpeBTZBsniEJZAw7Clxod0C17lb6bGNl6ssjQNp3sj4iuZBLFMeH5JhJbPe5Q8flLpLNx9FLZAzBCjS1xTiSd6WEkVgrN54eUpmfnTR0JpnE55wgppJgZDZD";
 
+app.get('/webhook/', function (req, res) {
+	if (req.query['hub.verify_token'] === verify_token) {
+		res.send(req.query['hub.challenge']);
+	}
+	res.send('Error, wrong validation token');
+});
+
+app.post('/webhook/', function (req, res) {
+	var messaging_events = req.body.entry[0].messaging;
+	for (var i = 0; i < messaging_events.length; i++) {
+		var event = req.body.entry[0].messaging[i];
+		var sender = event.sender.id;
+		if (event.message && event.message.text) {
+			var text = event.message.text;
+			if (text.toLowerCase() === "hello" || "hey") {
+				sendGenericMessage(sender);
+				continue
+			}
+		}
+		if (event.postback) {
+			text = JSON.stringify(event.postback);
+			sendTextMessage(sender, "Postback recieved:" + text, token)
+			continue
+		}
+	}
+
+	res.sendStatus(200);
+
+});
 
 
 
 // MIDDLEWARE
 app.use(logger('short'));
+
 
 
 
