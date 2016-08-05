@@ -17,6 +17,14 @@ app.engine('jsx', require('express-react-views').createEngine());
 
 
 
+// MIDDLEWARE
+app.use(logger('short'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
+
+
 
 
 // SET UP ROUTES
@@ -67,8 +75,6 @@ app.post('/webhook/', function (req, res) {
 
 
 
-// MIDDLEWARE
-app.use(logger('short'));
 
 
 
