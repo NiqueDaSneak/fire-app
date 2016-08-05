@@ -22,7 +22,9 @@ var landingPage = require('./routes/landingPage');
 app.use('/', landingPage);
 
 // var admin = require('./routes/admin');
-app.get('/admin', exports.admin);
+app.get('/admin', function (req, res) {
+	res.render('admin', { name: 'World' });
+});
 
 
 var messenger = require('./routes/messenger');
