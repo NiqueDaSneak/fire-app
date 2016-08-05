@@ -5,6 +5,8 @@ var request = require('request');
 var JsonDB = require('node-json-db');
 var db = new JsonDB("db.js", true, false);
 var logger = require('morgan');
+var bodyParser = require('body-parser');
+
 
 
 var app = express();
