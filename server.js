@@ -21,8 +21,8 @@ app.engine('jsx', require('express-react-views').createEngine());
 var landingPage = require('./routes/landingPage');
 app.use('/', landingPage);
 
-var admin = require('./routes/admin');
-app.get('/admin', admin);
+// var admin = require('./routes/admin');
+app.get('/admin', require('./routes/admin'));
 
 
 var messenger = require('./routes/messenger');
