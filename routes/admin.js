@@ -1,13 +1,17 @@
 "use strict"
 var express = require('express');
-var router = express.Router();
+// var router = express.Router();
 
 
-router.get('/', function (req, res) {
+// router.get('/', function (req, res) {
 
-	res.send('Hello World! This is the bot\'s root endpoint!');
+// 	res.render('admin', { name: 'World' });
 
-});
+// });
 
 
-module.exports = router;
+// module.exports = router;
+
+exports.admin = function(req, res) {
+	res.render('admin', { name: 'World' });
+};
