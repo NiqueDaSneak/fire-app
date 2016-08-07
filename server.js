@@ -3,7 +3,7 @@
 var express = require('express');
 var request = require('request');
 var JsonDB = require('node-json-db');
-var db = new JsonDB("db.js", true, false);
+var db = new JsonDB("db.json", true, false);
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
@@ -36,7 +36,7 @@ app.get('/', function (req, res) {
 
 
 app.get('/admin', function (req, res) {
-	res.render('admin', { name: 'World' });
+	res.render('admin');
 });
 
 
