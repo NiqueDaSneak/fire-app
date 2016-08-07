@@ -1,9 +1,6 @@
 var React = require('react');
 
-var HelloMessage = React.createClass({
-  render: function() {
-    return <div>Hello {this.props.name}</div>;
-  }
-});
+var adminApp, videoList, recentList, video, addVideoForm, editVideoForm;
 
-module.exports = HelloMessage;
+
+module.exports = adminApp;
