@@ -3,7 +3,7 @@
 var express = require('express');
 var request = require('request');
 var db = require('diskdb');
-// db.connect('db', ['videos'])
+db.connect('db', ['videos'])
 // var JsonDB = require('node-json-db');
 // var db = new JsonDB("db.json", true, false);
 var logger = require('morgan');
@@ -14,8 +14,8 @@ var bodyParser = require('body-parser');
 var app = express();
 
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jsx');
-app.engine('jsx', require('express-react-views').createEngine());
+app.set('view engine', 'pug');
+// app.engine('jsx', require('express-react-views').createEngine());
 
 
 
@@ -37,9 +37,80 @@ app.get('/', function (req, res) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 app.get('/admin', function (req, res) {
-	res.render('admin');
+	res.render('admin-pug');
 });
+
+app.post('/admin/', function (req, res) {
+	submitVideo(req.body);
+	res.redirect('/admin');
+
+});
+
+
+// Helper Methods for admin route
+
+function makeID() {
+
+	function s4() {
+		return Math.floor((1 + Math.random()) * 0x10000)
+		.toString(16)
+		.substring(1);
+	}
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	s4() + '-' + s4() + s4() + s4();
+}
+
+function extractYoutubeID(link) { 
+
+	if( link.match(/(youtube.com)/) ){
+		var split_c = "v=";
+		var split_n = 1;
+	}
+
+	if( link.match(/(youtu.be)/) ){
+		var split_c = "/";
+		var split_n = 3;
+	}
+
+	var getYouTubeVideoID = link.split(split_c)[split_n];
+
+	return getYouTubeVideoID.replace(/(&)+(.*)/, "");
+}
+
+function submitVideo(event) {
+		var newVideo = {
+			id: extractYoutubeID(event.videoURL),
+			url: event.videoURL,
+			videoTitle: event.videoTitle,
+			videoDescription: event.videoDescription,
+			category: event.category.toLowerCase()
+		}
+		db.videos.save(newVideo);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 var verify_token = 'my_voice_is_my_password_verify_me';
@@ -93,7 +164,20 @@ app.on('error', function(){
 });
 
 module.exports = app;
-// module.exports = db
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // MODULES FOR SENDING MESSAGES
