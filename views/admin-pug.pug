@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width,initial-scale=1')
+    title Admin Page
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', type='text/javascript')
+    link(rel='stylesheet', href='stylesheet.css', type='text/css')
+  body
+    div
+      form#videoSubmitForm(method='post', action='/admin')
+        label Paste Link Here:
+        |  
+        input(type='text', name='videoURL')
+        |  
+        label Video Title:
+        |  
+        input(type='text', name='videoTitle')
+        |  
+        label Video Description:
+        |  
+        input(type='text', name='videoDescription')
+        |  
+        label Choose a Category:
+        |  
+        select(name='category', form='videoSubmitForm')
+        |  
+        label or add a new one:
+        |  
+        input(type='text', name='category')
+        |  
+        input(type='submit', value='Create New Video')
