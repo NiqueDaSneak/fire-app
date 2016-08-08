@@ -24,6 +24,8 @@ html
         label Choose a Category:
         |  
         select(name='category', form='videoSubmitForm')
+            each object in options
+                option= object.category
         |  
         label or add a new one:
         |  
