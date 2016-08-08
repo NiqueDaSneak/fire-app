@@ -38,7 +38,10 @@ app.get('/', function (req, res) {
 
 
 
-
+// loop over every video
+// store the category
+// if the category exists in the list
+// move on
 
 
 
@@ -49,7 +52,8 @@ app.get('/', function (req, res) {
 
 
 app.get('/admin', function (req, res) {
-	res.render('admin-pug');
+	res.render('admin-pug', ({options: db.videos.find()}));
+	console.log(db.videos.find())
 });
 
 app.post('/admin/', function (req, res) {
@@ -99,11 +103,6 @@ function submitVideo(event) {
 		}
 		db.videos.save(newVideo);
 	}
-
-
-
-
-
 
 
 
