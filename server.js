@@ -14,7 +14,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 app.set('views', __dirname + '/views');
-app.set('view engine', 'pug');
+app.set('view engine', 'jade');
 // app.engine('jsx', require('express-react-views').createEngine());
 
 
@@ -49,7 +49,7 @@ app.get('/', function (req, res) {
 
 // LOAD ADMIN PAGE
 app.get('/admin', function (req, res) {
-	res.render('admin-pug', ({options: db.videos.find()}));
+	res.render('admin-jade', ({options: db.videos.find()}));
 });
 
 
@@ -60,14 +60,17 @@ app.post('/admin/', function (req, res) {
 
 });
 
-app.delete('/admin/:videoID', function (req, res) {
-	var videoID = req.param('videoID');
+app.get('/admin/:videoID', function (req, res) {
+	var videoID = req.params.videoID;
 	if (db.videos.find({id: videoID})) {
 		db.videos.remove({id: videoID});
+		console.log('successfully deleted');
+		res.redirect('/admin');
 	} else {
-		console.log('video not found')
+		console.log('video not found');
+		res.redirect('/admin');
+
 	}
-	res.redirect('/admin');
 });
 
 
@@ -102,15 +105,23 @@ function extractYoutubeID(link) {
 }
 
 function submitVideo(event) {
-		var newVideo = {
-			id: extractYoutubeID(event.videoURL),
-			url: event.videoURL,
-			videoTitle: event.videoTitle,
-			videoDescription: event.videoDescription,
-			category: event.category.toLowerCase()
-		}
-		db.videos.save(newVideo);
+	var eventCat;
+
+	if (Array.isArray(event.category) === true) {
+		eventCat = event.category[0].toLowerCase()
+	} else {
+		eventCat = event.category.toLowerCase()
 	}
+
+	var newVideo = {
+		id: extractYoutubeID(event.videoURL),
+		url: event.videoURL,
+		videoTitle: event.videoTitle,
+		videoDescription: event.videoDescription,
+		category: eventCat
+	}
+	db.videos.save(newVideo);
+}
 
 
 
