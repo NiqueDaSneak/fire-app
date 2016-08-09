@@ -3,9 +3,9 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width,initial-scale=1')
-    title Admin Page
+    title title
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', type='text/javascript')
-    link(rel='stylesheet', href='../public/admin-stylesheet.css', type='text/css')
+    link(rel='stylesheet', href='stylesheet.css', type='text/css')
   body
     div
       form#videoSubmitForm(method='post', action='/admin')
@@ -24,14 +24,20 @@ html
         label Choose a Category:
         |  
         select(name='category', form='videoSubmitForm')
-            each object in options
-                option= object.category
+          option(disabled='', selected='', value='')  -- select an option --
+          each video in options
+                option= video.category
         |  
         label or add a new one:
         |  
         input(type='text', name='category')
         |  
         input(type='submit', value='Create New Video')
-
     div
-        p Testing
+      p All Videos
+      ul
+each video in options
+        li
+          p= video.videoTitle
+          a(href='/admin/#{video.id}') DELETE
+
