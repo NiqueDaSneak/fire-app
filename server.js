@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 
 
 
-// SET UP ROUTES
+// LANDING PAGE
 app.get('/', function (req, res) {
 	// res.render('index');
 	res.send('Hello World! This is the bot\'s root endpoint!');
@@ -38,28 +38,36 @@ app.get('/', function (req, res) {
 
 
 
-// loop over every video
-// store the category
-// if the category exists in the list
-// move on
 
 
 
 
 
+// ADMIN APP
 
 
 
-
+// LOAD ADMIN PAGE
 app.get('/admin', function (req, res) {
 	res.render('admin-pug', ({options: db.videos.find()}));
-	console.log(db.videos.find())
 });
 
+
+// SAVE VIDEO TO DB
 app.post('/admin/', function (req, res) {
 	submitVideo(req.body);
 	res.redirect('/admin');
 
+});
+
+app.delete('/admin/:videoID', function (req, res) {
+	var videoID = req.param('videoID');
+	if (db.videos.find({id: videoID})) {
+		db.videos.remove({id: videoID});
+	} else {
+		console.log('video not found')
+	}
+	res.redirect('/admin');
 });
 
 
