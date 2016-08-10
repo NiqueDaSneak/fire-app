@@ -180,30 +180,30 @@ app.post('/webhook/', function (req, res) {
 		} else if (event.postback) {
 			var postback = JSON.stringify(event.postback.payload);
 
-			console.log('there is a postback:');
-			console.log(event.postback);
-			console.log('postback payload => ' + postback);
-			console.log('is postback.payload === to learn-more?');
-			console.log('LEARN_MORE');
-			console.log(postback === 'LEARN_MORE');
-			console.log('is postback === postback');
-			console.log(postback === postback);
+			// console.log('there is a postback:');
+			// console.log(event.postback);
+			// console.log('postback payload => ' + postback);
+			// console.log('is postback.payload === to learn-more?');
+			// console.log('LEARN_MORE');
+			// console.log(postback === 'LEARN_MORE');
+			// console.log('is postback === postback');
+			// console.log(postback === postback);
 
 			switch (event.postback.payload){
 				case 'LEARN_MORE':
 					// console.log('learn more was clicked');
 					sendTextMessage(sender, "This is the learn more text!")
 					break;
-				case 'SHOW_CAT':
+					case 'SHOW_CAT':
 					sendCategories(sender);
 					break;
+				}
 			}
 		}
-	}
 
-	res.sendStatus(200);
+		res.sendStatus(200);
 
-});
+	});
 
 
 
@@ -261,13 +261,18 @@ module.exports = app;
 function sendCategories(sender){
 	var allVideoCats = [];
 
-	db.videos.find().forEach(function(video){
-		allVideoCats.push(video.category);
-	});
+	function makeUniqueCats(){
 
-	allVideoCats = allVideoCats.filter(function(elem, index, self) {
-		return index == self.indexOf(elem);
-	});
+		db.videos.find().forEach(function(video){
+			allVideoCats.push(video.category);
+		});
+
+		allVideoCats = allVideoCats.filter(function(elem, index, self) {
+			return index == self.indexOf(elem);
+		});
+
+	}
+
 
 	function buttonGenerator(){
 		allVideoCats.forEach(function(category){
@@ -275,7 +280,7 @@ function sendCategories(sender){
 				"type":"postback",
 				"title": category,
 				"payload": category 
-			}
+			},
 		});
 	}
 
@@ -284,7 +289,7 @@ function sendCategories(sender){
 			"type":"template",
 			"payload":{
 				"template_type":"button",
-				"text":"Welcome to Fire! What would you like to do?",
+				"text":"Welcome to Fire! What would you like to watch?",
 				"buttons":[buttonGenerator()]
 			}
 		}
