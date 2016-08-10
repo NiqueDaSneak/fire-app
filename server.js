@@ -178,15 +178,15 @@ app.post('/webhook/', function (req, res) {
 			// var text = event.message.text;
 			sendWelcomeMessage(sender);
 		} else if (event.postback) {
-			var postback = JSON.stringify(event.postback);
-			console.log('there is a postback: ' + postback);
-			console.log('postback payload =>' + postback.payload);
-			console.log('is postback.payload === to learn more?');
-			console.log(postback === {"payload":"learn more"});
-			if (postback == {"payload":"learn more"}) {
+			var postback = JSON.stringify(event.postback.payload);
+			console.log('there is a postback: ' + event.postback);
+			console.log('postback payload =>' + postback);
+			console.log('is postback.payload === to learn-more?');
+			console.log(postback === "learn-more");
+			if (postback == "learn more") {
 				console.log('they clicked learn more!!!');
 				// sendTextMessage(sender, "This is the learn more text!")
-			} else if (postback == {"payload":"show categories"}) {
+			} else if (postback == "show categories") {
 				sendCategories(sender);
 			}
 		}
@@ -311,12 +311,12 @@ function sendWelcomeMessage(sender) {
 				{
 					"type":"postback",
 					"title":"Learn More About Us",
-					"payload": "learn more"
+					"payload":"learn-more"
 				},
 				{
 					"type":"postback",
 					"title":"I Need A Video",
-					"payload":"show categories"
+					"payload":"show-categories"
 				}
 				]
 			}
