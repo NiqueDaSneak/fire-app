@@ -180,6 +180,7 @@ app.post('/webhook/', function (req, res) {
 		}
 		if (event.postback) {
 			var postback = JSON.stringify(event.postback);
+			console.log(postback);
 			if (postback === "learn more") {
 				sendTextMessage(sender, "This is the learn more text!")
 			}
@@ -261,10 +262,10 @@ function sendCategories(sender){
 	function buttonGenerator(){
 		allVideoCats.forEach(function(category){
 			return {
-					"type":"postback",
-					"title": category,
-					"payload": category 
-				}
+				"type":"postback",
+				"title": category,
+				"payload": category 
+			}
 		});
 	}
 
