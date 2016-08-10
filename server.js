@@ -179,14 +179,16 @@ app.post('/webhook/', function (req, res) {
 			sendWelcomeMessage(sender);
 		} else if (event.postback) {
 			var postback = JSON.stringify(event.postback.payload);
-			// console.log('there is a postback:');
-			// console.log(event.postback);
-			// console.log('postback payload => ' + postback);
-			// console.log('is postback.payload === to learn-more?');
-			// console.log('learn');
-			// console.log('learn' === postback.toString());
-			// console.log('is postback === postback');
-			// console.log(postback === postback);
+			
+			console.log('there is a postback:');
+			console.log(event.postback);
+			console.log('postback payload => ' + postback);
+			console.log('is postback.payload === to learn-more?');
+			console.log('LEARN_MORE');
+			console.log(postback === 'LEARN_MORE');
+			console.log('is postback === postback');
+			console.log(postback === postback);
+
 			switch (event.postback.payload){
 				case 'LEARN_MORE':
 					console.log('learn more was clicked');
