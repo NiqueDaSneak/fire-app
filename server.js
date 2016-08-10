@@ -178,13 +178,15 @@ app.post('/webhook/', function (req, res) {
 			// var text = event.message.text;
 			sendWelcomeMessage(sender);
 		} else if (event.postback) {
-			if (postback === "learn more") {
-				console.log('they clicked learn more!!!');
-				// sendTextMessage(sender, "This is the learn more text!")
-			} else if (postback === "show categories") {
-				sendCategories(sender);
-			}
 			var postback = JSON.stringify(event.postback.payload);
+			if (true) {
+				console.log('they clicked learn more!!!');
+			}
+			// if (postback === "learn more") {
+			// 	// sendTextMessage(sender, "This is the learn more text!")
+			// } else if (postback === "show categories") {
+			// 	sendCategories(sender);
+			// }
 			console.log('there is a postback: ' + postback);
 		}
 	}
