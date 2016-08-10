@@ -179,9 +179,10 @@ app.post('/webhook/', function (req, res) {
 			sendWelcomeMessage(sender);
 		} else if (event.postback) {
 			var postback = JSON.stringify(event.postback.payload);
-			console.log(postback);
+			console.log('there is a postback: ' + postback);
 			if (postback === "learn more") {
-				sendTextMessage(sender, "This is the learn more text!")
+				console.log('they clicked learn more!!!')
+				// sendTextMessage(sender, "This is the learn more text!")
 			}
 
 			if (postback === "show categories") {
