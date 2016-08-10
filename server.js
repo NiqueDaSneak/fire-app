@@ -177,8 +177,7 @@ app.post('/webhook/', function (req, res) {
 		if (event.message && event.message.text) {
 			// var text = event.message.text;
 			sendWelcomeMessage(sender);
-		}
-		if (event.postback) {
+		} else if (event.postback) {
 			var postback = JSON.stringify(event.postback.payload);
 			console.log(postback);
 			if (postback === "learn more") {
