@@ -183,7 +183,7 @@ app.post('/webhook/', function (req, res) {
 			console.log(event.postback);
 			console.log('postback payload => ' + postback);
 			console.log('is postback.payload === to learn-more?');
-			console.log(postback === "learn-more");
+			console.log('learn-more' === postback);
 			if (postback == "learn-more") {
 				console.log('they clicked learn more!!!');
 				// sendTextMessage(sender, "This is the learn more text!")
