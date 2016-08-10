@@ -186,7 +186,7 @@ app.post('/webhook/', function (req, res) {
 			}
 
 			if (postback === "show categories") {
-				sendCategories();
+				sendCategories(sender);
 			}
 		}
 	}
