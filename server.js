@@ -43,6 +43,18 @@ app.get('/', function (req, res) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 // ADMIN APP
 
 
@@ -131,6 +143,22 @@ function submitVideo(event) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+// MESSENGER BOT
+
+
 var verify_token = 'my_voice_is_my_password_verify_me';
 var token = "EAAPDMUuxFGcBAFkMpPAnuHYAdJHSiptRCnFCYMlJQQFNZCLGhwupktFPHtkSjCPr3NexjFYZALNgPFzsUnEF35L06xHbYHPzgtZBirJm8ZAu0GKgh2OpvZBRlDeORfET6RussZApD5E96VEm7sN09Hsg4PFTCy5S6OZBFVGL8DKnAZDZD";
 
@@ -147,11 +175,8 @@ app.post('/webhook/', function (req, res) {
 		var event = req.body.entry[0].messaging[i];
 		var sender = event.sender.id;
 		if (event.message && event.message.text) {
-			var text = event.message.text;
-			if (text.toLowerCase() === "hello" || "hey") {
-				sendGenericMessage(sender);
-				continue
-			}
+			// var text = event.message.text;
+			sendWelcomeMessage(sender);
 		}
 		if (event.postback) {
 			text = JSON.stringify(event.postback);
@@ -168,6 +193,20 @@ app.post('/webhook/', function (req, res) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+// SET UP SERVER ENVIRONMENT
 
 
 var port = process.env.PORT || 3000;
@@ -200,38 +239,29 @@ module.exports = app;
 
 // MODULES FOR SENDING MESSAGES
 
-function sendGenericMessage(sender) {
+function sendWelcomeMessage(sender) {
 	var messageData = {
-		"attachment": {
-			"type": "template",
-			"payload": {
-				"template_type": "generic",
-				"elements": [{
-					"title": "First card",
-					"subtitle": "Element #1 of an hscroll",
-					"image_url": "http://messengerdemo.parseapp.com/img/rift.png",
-					"buttons": [{
-						"type": "web_url",
-						"url": "https://www.messenger.com",
-						"title": "web url"
-					}, {
-						"type": "postback",
-						"title": "Postback",
-						"payload": "Payload for first element in a generic bubble",
-					}],
-				}, {
-					"title": "Second card",
-					"subtitle": "Element #2 of an hscroll",
-					"image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
-					"buttons": [{
-						"type": "postback",
-						"title": "Postback",
-						"payload": "Payload for second element in a generic bubble",
-					}],
-				}]
+		"attachment":{
+			"type":"template",
+			"payload":{
+				"template_type":"button",
+				"text":"Welcome to Fire! What would you like to do?",
+				"buttons":[
+				{
+					"type":"postback",
+					"title":"Learn More About Fire",
+					"payload": "learn more"
+				},
+				{
+					"type":"postback",
+					"title":"I Need A Video",
+					"payload":"show categories"
+				}
+				]
 			}
 		}
-	}
+	};
+
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {access_token:token},
