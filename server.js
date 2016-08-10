@@ -183,8 +183,8 @@ app.post('/webhook/', function (req, res) {
 			console.log(event.postback);
 			console.log('postback payload => ' + postback);
 			console.log('is postback.payload === to learn-more?');
-			console.log('learn-more');
-			console.log('learn-more' === postback.toString());
+			console.log('learn');
+			console.log('learn' === postback.toString());
 			console.log('is postback === postback');
 			console.log(postback === postback);
 			if (postback == "learn-more") {
@@ -315,12 +315,12 @@ function sendWelcomeMessage(sender) {
 				{
 					"type":"postback",
 					"title":"Learn More About Us",
-					"payload":"learn-more"
+					"payload":"learn"
 				},
 				{
 					"type":"postback",
 					"title":"I Need A Video",
-					"payload":"show-categories"
+					"payload":"categories"
 				}
 				]
 			}
