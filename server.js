@@ -191,11 +191,12 @@ app.post('/webhook/', function (req, res) {
 
 			switch (event.postback.payload){
 				case 'LEARN_MORE':
-					console.log('learn more was clicked');
-						break;
+					// console.log('learn more was clicked');
+					sendTextMessage(sender, "This is the learn more text!")
+					break;
 				case 'SHOW_CAT':
-					console.log('show category was clicked');
-						break;
+					sendCategories(sender);
+					break;
 			}
 		}
 	}
