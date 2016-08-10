@@ -179,9 +179,14 @@ app.post('/webhook/', function (req, res) {
 			sendWelcomeMessage(sender);
 		}
 		if (event.postback) {
-			text = JSON.stringify(event.postback);
-			sendTextMessage(sender, "Postback recieved:" + text, token)
-			continue
+			postback = JSON.stringify(event.postback);
+			if (postback === "learn more") {
+				sendTextMessage(sender, "This is the learn more text!")
+			}
+
+			if (postback === "show categories") {
+				sendCategories();
+			}
 		}
 	}
 
@@ -239,6 +244,60 @@ module.exports = app;
 
 // MODULES FOR SENDING MESSAGES
 
+
+
+
+function sendCategories(sender){
+	var allVideoCats = [];
+
+	db.videos.find().forEach(function(video){
+		allVideoCats.push(video.category);
+	});
+
+	allVideoCats = allVideoCats.filter(function(elem, index, self) {
+		return index == self.indexOf(elem);
+	});
+
+	function buttonGenerator(){
+		allVideoCats.forEach(function(category){
+			return {
+					"type":"postback",
+					"title": category,
+					"payload": category 
+				}
+		});
+	}
+
+	var messageData = {
+		"attachment":{
+			"type":"template",
+			"payload":{
+				"template_type":"button",
+				"text":"Welcome to Fire! What would you like to do?",
+				"buttons":[buttonGenerator]
+			}
+		}
+	};
+
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: {access_token:token},
+		method: 'POST',
+		json: {
+			recipient: {id:sender},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
+}
+
+
+
 function sendWelcomeMessage(sender) {
 	var messageData = {
 		"attachment":{
@@ -249,7 +308,7 @@ function sendWelcomeMessage(sender) {
 				"buttons":[
 				{
 					"type":"postback",
-					"title":"Learn More About Fire",
+					"title":"Learn More About Us",
 					"payload": "learn more"
 				},
 				{
