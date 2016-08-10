@@ -275,7 +275,7 @@ function sendCategories(sender){
 			"payload":{
 				"template_type":"button",
 				"text":"Welcome to Fire! What would you like to do?",
-				"buttons":[buttonGenerator]
+				"buttons":[buttonGenerator()]
 			}
 		}
 	};
