@@ -179,8 +179,8 @@ app.post('/webhook/', function (req, res) {
 			sendWelcomeMessage(sender);
 		}
 		if (event.postback) {
-			var postback = JSON.stringify(event.postback);
-			console.log(postback);
+			var postback = JSON.stringify(event.postback.payload);
+			// console.log(postback);
 			if (postback === "learn more") {
 				sendTextMessage(sender, "This is the learn more text!")
 			}
