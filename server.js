@@ -184,7 +184,7 @@ app.post('/webhook/', function (req, res) {
 			console.log('postback payload => ' + postback);
 			console.log('is postback.payload === to learn-more?');
 			console.log('learn-more');
-			console.log('learn-more' === postback);
+			console.log('learn-more' === postback.toString());
 			console.log('is postback === postback');
 			console.log(postback === postback);
 			if (postback == "learn-more") {
