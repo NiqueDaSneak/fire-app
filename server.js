@@ -179,7 +179,7 @@ app.post('/webhook/', function (req, res) {
 			sendWelcomeMessage(sender);
 		} else if (event.postback) {
 			var postback = JSON.stringify(event.postback.payload);
-			
+
 			console.log('there is a postback:');
 			console.log(event.postback);
 			console.log('postback payload => ' + postback);
@@ -192,9 +192,10 @@ app.post('/webhook/', function (req, res) {
 			switch (event.postback.payload){
 				case 'LEARN_MORE':
 					console.log('learn more was clicked');
-
+						break;
 				case 'SHOW_CAT':
 					console.log('show category was clicked');
+						break;
 			}
 		}
 	}
