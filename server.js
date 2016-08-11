@@ -179,7 +179,7 @@ app.post('/webhook/', function (req, res) {
             sendWelcomeMessage(sender);
         } else if (event.postback) {
             var postback = JSON.stringify(event.postback.payload);
-            postbackHandler(event);
+            postbackHandler(sender, event);
                 // var allVideoCats = [];
                 // db.videos.find().forEach(function(video){
                 //     allVideoCats.push(video.category);
@@ -248,7 +248,7 @@ module.exports = app;
 // MODULES FOR SENDING MESSAGES
 
 
-function postbackHandler(event){
+function postbackHandler(sender, event){
     switch (event.postback.payload){
         case 'LEARN_MORE':
         sendTextMessage(sender, "This is the learn more text!")
