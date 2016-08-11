@@ -280,7 +280,7 @@ function sendCategories(sender){
                 "type":"postback",
                 "title": category,
                 "payload": category 
-            },
+            }
         });
     }
 
