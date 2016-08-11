@@ -247,19 +247,80 @@ module.exports = app;
 
 // MODULES FOR SENDING MESSAGES
 
-
 function postbackHandler(sender, event){
-    switch (event.postback.payload){
-        case 'LEARN_MORE':
-        sendTextMessage(sender, "This is the learn more text!")
-        break;
-        case 'SHOW_CAT':
-        sendCategories(sender);
-        break;
-        // case allVideoCats.anyValue
-        //     sendVideoList(sender, db.videos.find({category: above-value}))
-        //     break;
+    var allVideoCats = [];
+    db.videos.find().forEach(function(video){
+        allVideoCats.push(video.category);
+    });
+
+    allVideoCats = allVideoCats.filter(function(elem, index, self) {
+        return index == self.indexOf(elem);
+    });
+
+    for (var i = 0; i <= allVideoCats.length - 1; i++) {
+        switch (event.postback.payload){
+            case 'LEARN_MORE':
+            sendTextMessage(sender, "This is the learn more text!")
+            break;
+            case 'SHOW_CAT':
+            sendCategories(sender);
+            break;
+            case allVideoCats[i].category:
+            sendVideoList(sender, db.videos.find({ category: allVideoCats[i].category }));
+            break;
+        }
     }
+}
+
+
+
+
+function sendVideoList(sender, category){
+ var allVideosInCat = db.videos.find({ category });
+ var elements = [];
+
+ allVideosInCat.forEach(function(video){
+    elements.push(
+    {
+        "title": video.videoTitle,
+        "image_url":"http://img.youtube.com/vi/" + video.id + "/0.jpg",
+        "subtitle": video.videoDescription,
+        "buttons":[
+        {
+            "type":"web_url",
+            "url": video.url,
+            "title":"Watch Video"
+        }             
+        ]
+    }
+    )
+});
+
+ var messageData = {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"generic",
+        "elements":[elements]
+    }
+}
+};
+
+request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+        recipient: {id:sender},
+        message: messageData,
+    }
+}, function(error, response, body) {
+    if (error) {
+        console.log('Error sending messages: ', error)
+    } else if (response.body.error) {
+        console.log('Error: ', response.body.error)
+    }
+})
 }
 
 
@@ -277,11 +338,6 @@ function sendCategories(sender){
     allVideoCats = allVideoCats.filter(function(elem, index, self) {
         return index == self.indexOf(elem);
     });
-
-    console.log('cats below');
-    console.log(allVideoCats);
-
-
 
     allVideoCats.forEach(function(category){
         buttons.push(
