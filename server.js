@@ -261,7 +261,6 @@ module.exports = app;
 function sendCategories(sender){
     var allVideoCats = [];
 
-    (function makeUniqueCats(){
 
         db.videos.find().forEach(function(video){
             allVideoCats.push(video.category);
@@ -271,7 +270,7 @@ function sendCategories(sender){
             return index == self.indexOf(elem);
         });
 
-    }());
+
 
 
     function buttonGenerator(){
