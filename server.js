@@ -31,8 +31,8 @@ app.use(bodyParser.json());
 
 // LANDING PAGE
 app.get('/', function (req, res) {
-	// res.render('index');
-	res.send('Hello World! This is the bot\'s root endpoint!');
+    // res.render('index');
+    res.send('Hello World! This is the bot\'s root endpoint!');
 });
 
 
@@ -61,28 +61,28 @@ app.get('/', function (req, res) {
 
 // LOAD ADMIN PAGE
 app.get('/admin', function (req, res) {
-	res.render('admin-jade', ({options: db.videos.find()}));
+    res.render('admin-jade', ({options: db.videos.find()}));
 });
 
 
 // SAVE VIDEO TO DB
 app.post('/admin/', function (req, res) {
-	submitVideo(req.body);
-	res.redirect('/admin');
+    submitVideo(req.body);
+    res.redirect('/admin');
 
 });
 
 app.get('/admin/:videoID', function (req, res) {
-	var videoID = req.params.videoID;
-	if (db.videos.find({id: videoID})) {
-		db.videos.remove({id: videoID});
-		console.log('successfully deleted');
-		res.redirect('/admin');
-	} else {
-		console.log('video not found');
-		res.redirect('/admin');
+    var videoID = req.params.videoID;
+    if (db.videos.find({id: videoID})) {
+        db.videos.remove({id: videoID});
+        console.log('successfully deleted');
+        res.redirect('/admin');
+    } else {
+        console.log('video not found');
+        res.redirect('/admin');
 
-	}
+    }
 });
 
 
@@ -90,49 +90,49 @@ app.get('/admin/:videoID', function (req, res) {
 
 function makeID() {
 
-	function s4() {
-		return Math.floor((1 + Math.random()) * 0x10000)
-		.toString(16)
-		.substring(1);
-	}
-	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-	s4() + '-' + s4() + s4() + s4();
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
 }
 
 function extractYoutubeID(link) { 
 
-	if( link.match(/(youtube.com)/) ){
-		var split_c = "v=";
-		var split_n = 1;
-	}
+    if( link.match(/(youtube.com)/) ){
+        var split_c = "v=";
+        var split_n = 1;
+    }
 
-	if( link.match(/(youtu.be)/) ){
-		var split_c = "/";
-		var split_n = 3;
-	}
+    if( link.match(/(youtu.be)/) ){
+        var split_c = "/";
+        var split_n = 3;
+    }
 
-	var getYouTubeVideoID = link.split(split_c)[split_n];
+    var getYouTubeVideoID = link.split(split_c)[split_n];
 
-	return getYouTubeVideoID.replace(/(&)+(.*)/, "");
+    return getYouTubeVideoID.replace(/(&)+(.*)/, "");
 }
 
 function submitVideo(event) {
-	var eventCat;
+    var eventCat;
 
-	if (Array.isArray(event.category) === true) {
-		eventCat = event.category[0].toLowerCase()
-	} else {
-		eventCat = event.category.toLowerCase()
-	}
+    if (Array.isArray(event.category) === true) {
+        eventCat = event.category[0].toLowerCase()
+    } else {
+        eventCat = event.category.toLowerCase()
+    }
 
-	var newVideo = {
-		id: extractYoutubeID(event.videoURL),
-		url: event.videoURL,
-		videoTitle: event.videoTitle,
-		videoDescription: event.videoDescription,
-		category: eventCat
-	}
-	db.videos.save(newVideo);
+    var newVideo = {
+        id: extractYoutubeID(event.videoURL),
+        url: event.videoURL,
+        videoTitle: event.videoTitle,
+        videoDescription: event.videoDescription,
+        category: eventCat
+    }
+    db.videos.save(newVideo);
 }
 
 
@@ -163,47 +163,47 @@ var verify_token = 'my_voice_is_my_password_verify_me';
 var token = "EAAPDMUuxFGcBAFkMpPAnuHYAdJHSiptRCnFCYMlJQQFNZCLGhwupktFPHtkSjCPr3NexjFYZALNgPFzsUnEF35L06xHbYHPzgtZBirJm8ZAu0GKgh2OpvZBRlDeORfET6RussZApD5E96VEm7sN09Hsg4PFTCy5S6OZBFVGL8DKnAZDZD";
 
 app.get('/webhook/', function (req, res) {
-	if (req.query['hub.verify_token'] === verify_token) {
-		res.send(req.query['hub.challenge']);
-	}
-	res.send('Error, wrong validation token');
+    if (req.query['hub.verify_token'] === verify_token) {
+        res.send(req.query['hub.challenge']);
+    }
+    res.send('Error, wrong validation token');
 });
 
 app.post('/webhook/', function (req, res) {
-	var messaging_events = req.body.entry[0].messaging;
-	for (var i = 0; i < messaging_events.length; i++) {
-		var event = req.body.entry[0].messaging[i];
-		var sender = event.sender.id;
-		if (event.message && event.message.text) {
-			// var text = event.message.text;
-			sendWelcomeMessage(sender);
-		} else if (event.postback) {
-			var postback = JSON.stringify(event.postback.payload);
+    var messaging_events = req.body.entry[0].messaging;
+    for (var i = 0; i < messaging_events.length; i++) {
+        var event = req.body.entry[0].messaging[i];
+        var sender = event.sender.id;
+        if (event.message && event.message.text) {
+            // var text = event.message.text;
+            sendWelcomeMessage(sender);
+        } else if (event.postback) {
+            var postback = JSON.stringify(event.postback.payload);
 
-			// console.log('there is a postback:');
-			// console.log(event.postback);
-			// console.log('postback payload => ' + postback);
-			// console.log('is postback.payload === to learn-more?');
-			// console.log('LEARN_MORE');
-			// console.log(postback === 'LEARN_MORE');
-			// console.log('is postback === postback');
-			// console.log(postback === postback);
+            // console.log('there is a postback:');
+            // console.log(event.postback);
+            // console.log('postback payload => ' + postback);
+            // console.log('is postback.payload === to learn-more?');
+            // console.log('LEARN_MORE');
+            // console.log(postback === 'LEARN_MORE');
+            // console.log('is postback === postback');
+            // console.log(postback === postback);
 
-			switch (event.postback.payload){
-				case 'LEARN_MORE':
-					// console.log('learn more was clicked');
-					sendTextMessage(sender, "This is the learn more text!")
-					break;
-					case 'SHOW_CAT':
-					sendCategories(sender);
-					break;
-				}
-			}
-		}
+            switch (event.postback.payload){
+                case 'LEARN_MORE':
+                    // console.log('learn more was clicked');
+                    sendTextMessage(sender, "This is the learn more text!")
+                    break;
+                    case 'SHOW_CAT':
+                    sendCategories(sender);
+                    break;
+                }
+            }
+        }
 
-		res.sendStatus(200);
+        res.sendStatus(200);
 
-	});
+    });
 
 
 
@@ -228,12 +228,12 @@ app.post('/webhook/', function (req, res) {
 var port = process.env.PORT || 3000;
 
 app.listen(port, function(){
-	console.log('Server running on port ' + port);
+    console.log('Server running on port ' + port);
 
 });
 
 app.on('error', function(){
-	console.log(error);
+    console.log(error);
 });
 
 module.exports = app;
@@ -259,125 +259,125 @@ module.exports = app;
 
 
 function sendCategories(sender){
-	var allVideoCats = [];
+    var allVideoCats = [];
 
-	function makeUniqueCats(){
+    (function makeUniqueCats(){
 
-		db.videos.find().forEach(function(video){
-			allVideoCats.push(video.category);
-		});
+        db.videos.find().forEach(function(video){
+            allVideoCats.push(video.category);
+        });
 
-		allVideoCats = allVideoCats.filter(function(elem, index, self) {
-			return index == self.indexOf(elem);
-		});
+        allVideoCats = allVideoCats.filter(function(elem, index, self) {
+            return index == self.indexOf(elem);
+        });
 
-	}
+    }());
 
 
-	function buttonGenerator(){
-		allVideoCats.forEach(function(category){
-			return {
-				"type":"postback",
-				"title": category,
-				"payload": category 
-			},
-		});
-	}
+    function buttonGenerator(){
+        allVideoCats.forEach(function(category){
+            return {
+                "type":"postback",
+                "title": category,
+                "payload": category 
+            },
+        });
+    }
 
-	var messageData = {
-		"attachment":{
-			"type":"template",
-			"payload":{
-				"template_type":"button",
-				"text":"Welcome to Fire! What would you like to watch?",
-				"buttons":[buttonGenerator()]
-			}
-		}
-	};
+    var messageData = {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type":"button",
+                "text":"Welcome to Fire! What would you like to watch?",
+                "buttons":[buttonGenerator()]
+            }
+        }
+    };
 
-	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: {access_token:token},
-		method: 'POST',
-		json: {
-			recipient: {id:sender},
-			message: messageData,
-		}
-	}, function(error, response, body) {
-		if (error) {
-			console.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error)
-		}
-	})
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:token},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
 }
 
 
 
 function sendWelcomeMessage(sender) {
-	var messageData = {
-		"attachment":{
-			"type":"template",
-			"payload":{
-				"template_type":"button",
-				"text":"Welcome to Fire! What would you like to do?",
-				"buttons":[
-				{
-					"type":"postback",
-					"title":"Learn More About Us",
-					"payload":"LEARN_MORE"
-				},
-				{
-					"type":"postback",
-					"title":"I Need A Video",
-					"payload":"SHOW_CAT"
-				}
-				]
-			}
-		}
-	};
+    var messageData = {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type":"button",
+                "text":"Welcome to Fire! What would you like to do?",
+                "buttons":[
+                {
+                    "type":"postback",
+                    "title":"Learn More About Us",
+                    "payload":"LEARN_MORE"
+                },
+                {
+                    "type":"postback",
+                    "title":"I Need A Video",
+                    "payload":"SHOW_CAT"
+                }
+                ]
+            }
+        }
+    };
 
-	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: {access_token:token},
-		method: 'POST',
-		json: {
-			recipient: {id:sender},
-			message: messageData,
-		}
-	}, function(error, response, body) {
-		if (error) {
-			console.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error)
-		}
-	})
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:token},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
 }
 
 ///////
 
 function sendTextMessage(sender, text) {
 
-	var messageData = {
-		text: text
-	};
+    var messageData = {
+        text: text
+    };
 
-	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: {access_token: token},
-		method: 'POST',
-		json: {
-			recipient: {id: sender},
-			message: messageData
-		}
-	}, function (error, response) {
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: token},
+        method: 'POST',
+        json: {
+            recipient: {id: sender},
+            message: messageData
+        }
+    }, function (error, response) {
 
-		if (error) {
-			console.log('Error sending message: ', error);
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error);
-		}
+        if (error) {
+            console.log('Error sending message: ', error);
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error);
+        }
 
-	});
+    });
 
 }
