@@ -179,25 +179,17 @@ app.post('/webhook/', function (req, res) {
             sendWelcomeMessage(sender);
         } else if (event.postback) {
             var postback = JSON.stringify(event.postback.payload);
+            postbackHandler();
+                // var allVideoCats = [];
+                // db.videos.find().forEach(function(video){
+                //     allVideoCats.push(video.category);
+                // });
+                // allVideoCats = allVideoCats.filter(function(elem, index, self) {
+                //     return index == self.indexOf(elem);
+                // });
 
-            // console.log('there is a postback:');
-            // console.log(event.postback);
-            // console.log('postback payload => ' + postback);
-            // console.log('is postback.payload === to learn-more?');
-            // console.log('LEARN_MORE');
-            // console.log(postback === 'LEARN_MORE');
-            // console.log('is postback === postback');
-            // console.log(postback === postback);
 
-            switch (event.postback.payload){
-                case 'LEARN_MORE':
-                    // console.log('learn more was clicked');
-                    sendTextMessage(sender, "This is the learn more text!")
-                    break;
-                    case 'SHOW_CAT':
-                    sendCategories(sender);
-                    break;
-                }
+
             }
         }
 
@@ -256,6 +248,21 @@ module.exports = app;
 // MODULES FOR SENDING MESSAGES
 
 
+function postbackHandler(){
+    switch (event.postback.payload){
+        case 'LEARN_MORE':
+        sendTextMessage(sender, "This is the learn more text!")
+        break;
+        case 'SHOW_CAT':
+        sendCategories(sender);
+        break;
+        // case allVideoCats.anyValue
+        //     sendVideoList(sender, db.videos.find({category: above-value}))
+        //     break;
+    }
+}
+
+
 
 
 function sendCategories(sender){
@@ -273,8 +280,6 @@ function sendCategories(sender){
 
     console.log('cats below');
     console.log(allVideoCats);
-    console.log('buttons below');
-    console.log(buttons);
 
 
 
@@ -282,12 +287,14 @@ function sendCategories(sender){
         buttons.push(
         {
             "type":"postback",
-            "title": category,
+            "title": category.toUpperCase(),
             "payload": category 
         }
         )
     });
 
+    console.log('buttons below');
+    console.log(buttons);
 
 
     var messageData = {
