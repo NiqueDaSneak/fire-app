@@ -258,6 +258,7 @@ function postbackHandler(sender, event){
     });
 
     for (var i = 0; i <= allVideoCats.length - 1; i++) {
+        console.log('inside loop searching for case');
         switch (event.postback.payload){
             case 'LEARN_MORE':
             sendTextMessage(sender, "This is the learn more text!")
@@ -266,6 +267,7 @@ function postbackHandler(sender, event){
             sendCategories(sender);
             break;
             case allVideoCats[i].category:
+            console.log('inside ' + allVideoCats[i].category + 'case statement!');
             sendVideoList(sender, db.videos.find({ category: allVideoCats[i].category }));
             break;
         }
