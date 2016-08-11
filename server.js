@@ -260,28 +260,35 @@ module.exports = app;
 
 function sendCategories(sender){
     var allVideoCats = [];
+    var buttons = [];
 
 
-        db.videos.find().forEach(function(video){
-            allVideoCats.push(video.category);
-        });
+    db.videos.find().forEach(function(video){
+        allVideoCats.push(video.category);
+    });
 
-        allVideoCats = allVideoCats.filter(function(elem, index, self) {
-            return index == self.indexOf(elem);
-        });
+    allVideoCats = allVideoCats.filter(function(elem, index, self) {
+        return index == self.indexOf(elem);
+    });
+
+    console.log('cats below');
+    console.log(allVideoCats);
+    console.log('buttons below');
+    console.log(buttons);
 
 
 
+    allVideoCats.forEach(function(category){
+        buttons.push(
+        {
+            "type":"postback",
+            "title": category,
+            "payload": category 
+        }
+        )
+    });
 
-    function buttonGenerator(){
-        allVideoCats.forEach(function(category){
-            return {
-                "type":"postback",
-                "title": category,
-                "payload": category 
-            }
-        });
-    }
+
 
     var messageData = {
         "attachment":{
@@ -289,7 +296,7 @@ function sendCategories(sender){
             "payload":{
                 "template_type":"button",
                 "text":"Welcome to Fire! What would you like to watch?",
-                "buttons":[buttonGenerator()]
+                "buttons": buttons
             }
         }
     };
