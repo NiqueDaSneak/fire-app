@@ -287,8 +287,8 @@ function sendVideoList(sender, category){
     elements.push(
     {
         "title":video.videoTitle,
-        // "image_url":"http://img.youtube.com/vi/" + video.id + "/0.jpg",
-        // "subtitle":video.videoDescription,
+        "image_url":"http://img.youtube.com/vi/" + video.id + "/0.jpg",
+        "subtitle":video.videoDescription,
         "buttons":[
         {
             "type":"web_url",
