@@ -283,15 +283,12 @@ function sendVideoList(sender, category){
  var allVideosInCat = db.videos.find({ category: category });
  var elements = [];
 
- console.log('allVideosInCat below:');
- console.log(allVideosInCat);
-
  allVideosInCat.forEach(function(video){
     elements.push(
     {
-        "title": video.videoTitle,
-        "image_url":"http://img.youtube.com/vi/" + video.id + "/0.jpg",
-        "subtitle": video.videoDescription,
+        "title":video.videoTitle,
+        // "image_url":"http://img.youtube.com/vi/" + video.id + "/0.jpg",
+        "subtitle":video.videoDescription,
         "buttons":[
         {
             "type":"web_url",
