@@ -288,12 +288,12 @@ function sendVideoList(sender, category){
     {
         "title":video.videoTitle,
         // "image_url":"http://img.youtube.com/vi/" + video.id + "/0.jpg",
-        "subtitle":video.videoDescription,
+        // "subtitle":video.videoDescription,
         "buttons":[
         {
             "type":"web_url",
-            "url": video.url,
-            "title":"Watch Video"
+            "title":"Watch Video",
+            "url": video.url
         }             
         ]
     }
