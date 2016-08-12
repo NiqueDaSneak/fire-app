@@ -280,7 +280,7 @@ function postbackHandler(sender, event){
 
 
 function sendVideoList(sender, category){
- var allVideosInCat = db.videos.find({ category });
+ var allVideosInCat = db.videos.find({ category: category });
  var elements = [];
 
  console.log('allVideosInCat: '+ allVideosInCat);
