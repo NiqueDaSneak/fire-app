@@ -283,7 +283,8 @@ function sendVideoList(sender, category){
  var allVideosInCat = db.videos.find({ category: category });
  var elements = [];
 
- console.log('allVideosInCat: '+ allVideosInCat);
+ console.log('allVideosInCat below:');
+ console.log(allVideosInCat);
 
  allVideosInCat.forEach(function(video){
     elements.push(
@@ -302,7 +303,8 @@ function sendVideoList(sender, category){
     )
 });
 
- console.log('elements: '+ elements);
+ console.log('elements below:');
+ console.log(elements);
 
  var messageData = {
     "attachment":{
