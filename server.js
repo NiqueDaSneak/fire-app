@@ -269,7 +269,7 @@ function postbackHandler(sender, event){
             sendCategories(sender);
             break;
             case allVideoCats[i]:
-            console.log('inside ' + allVideoCats[i] + 'case statement!');
+            console.log('inside ' + allVideoCats[i] + ' case statement!');
             sendVideoList(sender, db.videos.find({ category: allVideoCats[i] }));
             break;
         }
@@ -300,12 +300,14 @@ function sendVideoList(sender, category){
     )
 });
 
+ console.log(elements[0])
+
  var messageData = {
     "attachment":{
       "type":"template",
       "payload":{
         "template_type":"generic",
-        "elements":[elements]
+        "elements": [ elements ]
     }
 }
 };
