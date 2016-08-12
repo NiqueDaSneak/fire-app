@@ -308,7 +308,7 @@ function sendVideoList(sender, category){
       "type":"template",
       "payload":{
         "template_type":"generic",
-        "elements": [ elements ]
+        "elements": elements
     }
 }
 };
