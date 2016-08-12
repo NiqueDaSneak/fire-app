@@ -269,8 +269,8 @@ function postbackHandler(sender, event){
             sendCategories(sender);
             break;
             case allVideoCats[i]:
-            console.log('inside ' + allVideoCats[i].category + 'case statement!');
-            sendVideoList(sender, db.videos.find({ category: allVideoCats[i].category }));
+            console.log('inside ' + allVideoCats[i] + 'case statement!');
+            sendVideoList(sender, db.videos.find({ category: allVideoCats[i] }));
             break;
         }
     }
