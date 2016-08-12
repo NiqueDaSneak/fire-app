@@ -257,10 +257,11 @@ function postbackHandler(sender, event){
         return index == self.indexOf(elem);
     });
 
-    for (var i = 0; i <= allVideoCats.length - 1; i++) {
+    for (var i = 0; i < allVideoCats.length; i++) {
         console.log('inside loop searching for case');
+        console.log('PAYLOAD: ' + event.postback.payload);
+        console.log('i = ' + i);
         switch (event.postback.payload){
-            console.log(event.postback.payload);
             case 'LEARN_MORE':
             sendTextMessage(sender, "This is the learn more text!")
             break;
