@@ -260,6 +260,7 @@ function postbackHandler(sender, event){
     for (var i = 0; i <= allVideoCats.length - 1; i++) {
         console.log('inside loop searching for case');
         switch (event.postback.payload){
+            console.log(event.postback.payload);
             case 'LEARN_MORE':
             sendTextMessage(sender, "This is the learn more text!")
             break;
