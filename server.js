@@ -71,6 +71,8 @@ app.post('/admin/', function (req, res) {
 
 });
 
+
+// DELETE VIDEO
 app.get('/admin/:videoID', function (req, res) {
     var videoID = req.params.videoID;
     if (db.videos.find({id: videoID})) {
@@ -260,6 +262,10 @@ function postbackHandler(sender, event){
             sendCategories(sender);
             break;
 
+            case 'PREFS':
+            
+            break;
+
             case allVideoCats[i]:
             sendVideoList(sender, allVideoCats[i]);
             break;
@@ -271,10 +277,10 @@ function postbackHandler(sender, event){
 
 
 function sendVideoList(sender, category){
- var allVideosInCat = db.videos.find({ category: category });
- var elements = [];
+   var allVideosInCat = db.videos.find({ category: category });
+   var elements = [];
 
- allVideosInCat.forEach(function(video){
+   allVideosInCat.forEach(function(video){
     elements.push(
     {
         "title":video.videoTitle,
@@ -292,7 +298,7 @@ function sendVideoList(sender, category){
 });
 
 
- var messageData = {
+   var messageData = {
     "attachment":{
       "type":"template",
       "payload":{
@@ -390,8 +396,13 @@ function sendWelcomeMessage(sender) {
                 },
                 {
                     "type":"postback",
-                    "title":"I Need A Video",
+                    "title":"Show me video categories",
                     "payload":"SHOW_CAT"
+                },
+                {
+                    "type":"postback",
+                    "title":"Manage my preferences",
+                    "payload":"PREFS"
                 }
                 ]
             }
