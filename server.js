@@ -180,12 +180,12 @@ app.post('/webhook/', function (req, res) {
             var postback = JSON.stringify(event.postback.payload);
             postbackHandler(sender, event);
 
-            }
         }
+    }
 
-        res.sendStatus(200);
+    res.sendStatus(200);
 
-    });
+});
 
 
 
@@ -247,14 +247,25 @@ function postbackHandler(sender, event){
         return index == self.indexOf(elem);
     });
 
+    console.log('payload below:');
+    console.log(event.postback.payload);
+    console.log('sender below:');
+    console.log(sender);
+
     for (var i = 0; i < allVideoCats.length; i++) {
         switch (event.postback.payload){
+            case 'START':
+            sendWelcomeMessage(sender);
+            break;
+
             case 'LEARN_MORE':
             sendTextMessage(sender, "This is the learn more text!")
             break;
+
             case 'SHOW_CAT':
             sendCategories(sender);
             break;
+
             case allVideoCats[i]:
             sendVideoList(sender, allVideoCats[i]);
             break;
