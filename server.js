@@ -2,10 +2,14 @@
 
 var express = require('express');
 var request = require('request');
-var db = require('diskdb');
-db.connect('db', ['videos'])
-// var JsonDB = require('node-json-db');
-// var db = new JsonDB("db.json", true, false);
+
+var viddb = require('diskdb');
+viddb.connect('db', ['videos']);
+
+var userdb = require('diskdb');
+userdb.connect('db', ['users']);
+
+
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
@@ -61,7 +65,7 @@ app.get('/', function (req, res) {
 
 // LOAD ADMIN PAGE
 app.get('/admin', function (req, res) {
-    res.render('admin-jade', ({options: db.videos.find()}));
+    res.render('admin-jade', ({options: viddb.videos.find()}));
 });
 
 
@@ -74,8 +78,8 @@ app.post('/admin/', function (req, res) {
 
 app.get('/admin/:videoID', function (req, res) {
     var videoID = req.params.videoID;
-    if (db.videos.find({id: videoID})) {
-        db.videos.remove({id: videoID});
+    if (viddb.videos.find({id: videoID})) {
+        viddb.videos.remove({id: videoID});
         console.log('successfully deleted');
         res.redirect('/admin');
     } else {
@@ -132,7 +136,7 @@ function submitVideo(event) {
         videoDescription: event.videoDescription,
         category: eventCat
     }
-    db.videos.save(newVideo);
+    viddb.videos.save(newVideo);
 }
 
 
@@ -239,18 +243,13 @@ module.exports = app;
 
 function postbackHandler(sender, event){
     var allVideoCats = [];
-    db.videos.find().forEach(function(video){
+    viddb.videos.find().forEach(function(video){
         allVideoCats.push(video.category);
     });
 
     allVideoCats = allVideoCats.filter(function(elem, index, self) {
         return index == self.indexOf(elem);
     });
-
-    console.log('payload below:');
-    console.log(event.postback.payload);
-    console.log('sender below:');
-    console.log(sender);
 
     for (var i = 0; i < allVideoCats.length; i++) {
         switch (event.postback.payload){
@@ -277,7 +276,7 @@ function postbackHandler(sender, event){
 
 
 function sendVideoList(sender, category){
- var allVideosInCat = db.videos.find({ category: category });
+ var allVideosInCat = viddb.videos.find({ category: category });
  var elements = [];
 
  allVideosInCat.forEach(function(video){
@@ -297,8 +296,6 @@ function sendVideoList(sender, category){
     )
 });
 
- console.log('elements below:');
- console.log(elements);
 
  var messageData = {
     "attachment":{
@@ -335,7 +332,7 @@ function sendCategories(sender){
     var buttons = [];
 
 
-    db.videos.find().forEach(function(video){
+    viddb.videos.find().forEach(function(video){
         allVideoCats.push(video.category);
     });
 
@@ -389,7 +386,7 @@ function sendWelcomeMessage(sender) {
             "type":"template",
             "payload":{
                 "template_type":"button",
-                "text":"Welcome to Fire! What would you like to do?",
+                "text":"Welcome to Fire! How can we be of service?",
                 "buttons":[
                 {
                     "type":"postback",
