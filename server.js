@@ -175,20 +175,10 @@ app.post('/webhook/', function (req, res) {
         var event = req.body.entry[0].messaging[i];
         var sender = event.sender.id;
         if (event.message && event.message.text) {
-            // var text = event.message.text;
             sendWelcomeMessage(sender);
         } else if (event.postback) {
             var postback = JSON.stringify(event.postback.payload);
             postbackHandler(sender, event);
-                // var allVideoCats = [];
-                // db.videos.find().forEach(function(video){
-                //     allVideoCats.push(video.category);
-                // });
-                // allVideoCats = allVideoCats.filter(function(elem, index, self) {
-                //     return index == self.indexOf(elem);
-                // });
-
-
 
             }
         }
@@ -258,9 +248,6 @@ function postbackHandler(sender, event){
     });
 
     for (var i = 0; i < allVideoCats.length; i++) {
-        console.log('inside loop searching for case');
-        console.log('PAYLOAD: ' + event.postback.payload);
-        console.log('i = ' + i);
         switch (event.postback.payload){
             case 'LEARN_MORE':
             sendTextMessage(sender, "This is the learn more text!")
@@ -269,7 +256,6 @@ function postbackHandler(sender, event){
             sendCategories(sender);
             break;
             case allVideoCats[i]:
-            console.log('inside ' + allVideoCats[i] + ' case statement!');
             sendVideoList(sender, allVideoCats[i]);
             break;
         }
