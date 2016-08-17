@@ -2,13 +2,8 @@
 
 var express = require('express');
 var request = require('request');
-
-var viddb = require('diskdb');
-viddb.connect('db', ['videos']);
-
-var userdb = require('diskdb');
-userdb.connect('db', ['users']);
-
+var db = require('diskdb');
+db.connect('db', ['videos', 'users'])
 
 var logger = require('morgan');
 var bodyParser = require('body-parser');
@@ -65,7 +60,7 @@ app.get('/', function (req, res) {
 
 // LOAD ADMIN PAGE
 app.get('/admin', function (req, res) {
-    res.render('admin-jade', ({options: viddb.videos.find()}));
+    res.render('admin-jade', ({options: db.videos.find()}));
 });
 
 
@@ -78,8 +73,8 @@ app.post('/admin/', function (req, res) {
 
 app.get('/admin/:videoID', function (req, res) {
     var videoID = req.params.videoID;
-    if (viddb.videos.find({id: videoID})) {
-        viddb.videos.remove({id: videoID});
+    if (db.videos.find({id: videoID})) {
+        db.videos.remove({id: videoID});
         console.log('successfully deleted');
         res.redirect('/admin');
     } else {
@@ -136,7 +131,7 @@ function submitVideo(event) {
         videoDescription: event.videoDescription,
         category: eventCat
     }
-    viddb.videos.save(newVideo);
+    db.videos.save(newVideo);
 }
 
 
@@ -243,7 +238,7 @@ module.exports = app;
 
 function postbackHandler(sender, event){
     var allVideoCats = [];
-    viddb.videos.find().forEach(function(video){
+    db.videos.find().forEach(function(video){
         allVideoCats.push(video.category);
     });
 
@@ -276,7 +271,7 @@ function postbackHandler(sender, event){
 
 
 function sendVideoList(sender, category){
- var allVideosInCat = viddb.videos.find({ category: category });
+ var allVideosInCat = db.videos.find({ category: category });
  var elements = [];
 
  allVideosInCat.forEach(function(video){
@@ -332,7 +327,7 @@ function sendCategories(sender){
     var buttons = [];
 
 
-    viddb.videos.find().forEach(function(video){
+    db.videos.find().forEach(function(video){
         allVideoCats.push(video.category);
     });
 
