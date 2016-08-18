@@ -253,9 +253,7 @@ function postbackHandler(sender, event){
             case 'START':
             sendWelcomeMessage(sender);
             console.log('sender:');
-            console.log(sender);
-            console.log('sender id:');
-            console.log(sender.id);
+            console.log(event.sender);
             break;
 
             case 'LEARN_MORE':
@@ -440,9 +438,9 @@ function sendWelcomeMessage(sender) {
 
 
 
-// function sendPrefsMessage(sender){
+function sendPrefsMessage(sender){
 
-// }
+}
 
 
 
