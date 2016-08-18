@@ -252,10 +252,6 @@ function postbackHandler(sender, event){
         switch (event.postback.payload){
             case 'START':
             sendWelcomeMessage(sender);
-            console.log('sender:');
-            console.log(event.sender);
-            console.log('event');
-            console.log(event);
             break;
 
             case 'LEARN_MORE':
@@ -267,7 +263,7 @@ function postbackHandler(sender, event){
             break;
 
             case 'PREFS':
-
+            sendPrefsMessage(sender);
             break;
 
             case allVideoCats[i]:
@@ -441,7 +437,61 @@ function sendWelcomeMessage(sender) {
 
 
 function sendPrefsMessage(sender){
+    var user = null;
+    if (db.usersfind({id: sender})) {
+        user = db.usersfind({id: sender})
+    } else {
+        var newUser = {
+            id: sender
+        }
+        db.users.save(newUser);
+        user = newUser;
+    }
 
+
+
+    var messageData = {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type":"button",
+                "text":"Would you like me to start sending you videos regularly, or would you rather just see all of your favorite videos?",
+                "buttons":[
+                {
+                    "type":"postback",
+                    "title":"Schedule videos",
+                    "payload":"SCHEDULE"
+                },
+                {
+                    "type":"postback",
+                    "title":"Show favorites",
+                    "payload":"SHOW_CAT"
+                },
+                {
+                    "type":"postback",
+                    "title":"Show video categories",
+                    "payload":"PREFS"
+                }
+                ]
+            }
+        }
+    };
+
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:token},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
 }
 
 
