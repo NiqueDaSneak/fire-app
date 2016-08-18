@@ -266,6 +266,14 @@ function postbackHandler(sender, event){
             sendPrefsMessage(sender);
             break;
 
+            case 'SCHEDULE':
+
+            break;
+
+            case 'FAV':
+
+            break;
+
             case allVideoCats[i]:
             sendVideoList(sender, allVideoCats[i]);
             break;
@@ -296,6 +304,11 @@ function sendVideoList(sender, category){
             "type":"postback",
             "title":"Add to Favorites",
             "payload": "FAV_" + video.id 
+        },
+        {
+            "type":"web_url",
+            "title":"Share on Facebook",
+            "url":"https://www.facebook.com/sharer/sharer.php?u=https%3A//www.youtube.com/watch?v=" + video.id
         }                
         ]
     }
@@ -465,12 +478,12 @@ function sendPrefsMessage(sender){
                 {
                     "type":"postback",
                     "title":"Show favorites",
-                    "payload":"SHOW_CAT"
+                    "payload":"FAV"
                 },
                 {
                     "type":"postback",
                     "title":"Show video categories",
-                    "payload":"PREFS"
+                    "payload":"SHOW_CAT"
                 }
                 ]
             }
