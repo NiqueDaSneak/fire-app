@@ -254,6 +254,8 @@ function postbackHandler(sender, event){
             sendWelcomeMessage(sender);
             console.log('sender:');
             console.log(event.sender);
+            console.log('event');
+            console.log(event);
             break;
 
             case 'LEARN_MORE':
