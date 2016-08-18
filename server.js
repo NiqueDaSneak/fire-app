@@ -263,7 +263,7 @@ function postbackHandler(sender, event){
             break;
 
             case 'PREFS':
-            
+
             break;
 
             case allVideoCats[i]:
@@ -291,7 +291,12 @@ function sendVideoList(sender, category){
             "type":"web_url",
             "title":"Watch Video",
             "url": video.url
-        }             
+        },
+        {
+            "type":"postback",
+            "title":"Add to Favorites",
+            "payload": "FAV_" + video.id 
+        }                
         ]
     }
     )
@@ -396,12 +401,12 @@ function sendWelcomeMessage(sender) {
                 },
                 {
                     "type":"postback",
-                    "title":"Show me video categories",
+                    "title":"Show video categories",
                     "payload":"SHOW_CAT"
                 },
                 {
                     "type":"postback",
-                    "title":"Manage my preferences",
+                    "title":"Manage my settings",
                     "payload":"PREFS"
                 }
                 ]
