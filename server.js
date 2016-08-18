@@ -439,7 +439,7 @@ function sendWelcomeMessage(sender) {
 function sendPrefsMessage(sender){
     var user = null;
     if (db.users.find({id: sender})) {
-        user = db.usersfind({id: sender})
+        user = db.users.find({id: sender})
     } else {
         var newUser = {
             id: sender
