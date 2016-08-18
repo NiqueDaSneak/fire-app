@@ -252,6 +252,10 @@ function postbackHandler(sender, event){
         switch (event.postback.payload){
             case 'START':
             sendWelcomeMessage(sender);
+            console.log('sender:');
+            console.log(sender);
+            console.log('sender id:');
+            console.log(sender.id);
             break;
 
             case 'LEARN_MORE':
@@ -431,7 +435,20 @@ function sendWelcomeMessage(sender) {
     })
 }
 
-///////
+
+
+
+
+
+// function sendPrefsMessage(sender){
+
+// }
+
+
+
+
+
+
 
 function sendTextMessage(sender, text) {
 
