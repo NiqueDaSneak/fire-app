@@ -270,8 +270,10 @@ function postbackHandler(sender, event){
 
             break;
 
-            case 'FAV':
-
+            // to make videos favorite
+            default:
+            // db.videos.find({id: event.postback.payload})
+            sendTextMessage(sender, event.postback.payload);
             break;
 
             case allVideoCats[i]:
@@ -303,7 +305,7 @@ function sendVideoList(sender, category){
         {
             "type":"postback",
             "title":"Add to Favorites",
-            "payload": "FAV_" + video.id 
+            "payload": video.id 
         },
         {
             "type":"web_url",
