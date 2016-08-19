@@ -349,7 +349,7 @@ function userAuth(sender){
         db.user.save(newUser);
         user = newUser
     } else {
-        user = db.user.find({id: sender})
+        user = db.users.find({id: sender})
     }
 }
 
