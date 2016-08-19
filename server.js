@@ -272,39 +272,69 @@ function postbackHandler(sender, event){
 
             // to make videos favorite
             default:
-            var user = null;
+            
             if (db.users.find({id: sender})) {
-                db.users.find({id: sender}).favorites.push(db.videos.find({id: event.postback.payload}));
-                sendTextMessage(sender, 'Favorite saved (not new)');
-                console.log(user.favorites);
-            } else {
-                var newUser = {
-                    id: sender,
-                    favorites: []
+
+                var query = {
+                    id: sender
                 }
-                db.users.save(newUser);
-                db.users.find({id: newUser.id}).favorites.push(db.videos.find({id: event.postback.payload}));
-                sendTextMessage(sender, 'Favorite saved (new)');
-                console.log(user.favorites);
+
+                var savedFavs = db.users.find({id: sender}).favorites;
+
+                var newFav = event.postback.payload;
+
+                var dataToBeUpdated = savedFavs.push(newFav);
+
+                var options = {
+                   multi: false,
+                   upsert: false
+               };
+               db.users.update(query, dataToBeUpdated, options);
+               sendTextMessage(sender, 'Favorite saved (not new)');
+               console.log(db.users.find({id: sender}).favorites);
+           } else {
+            var newUser = {
+                id: sender,
+                favorites: []
+            }
+            db.users.save(newUser);
+
+            var query = {
+                id: sender
             }
 
-            break;
+            var savedFavs = db.users.find({id: sender}).favorites;
 
-            case allVideoCats[i]:
-            sendVideoList(sender, allVideoCats[i]);
-            break;
-        }
-    }
+            var newFav = event.postback.payload;
+
+            var dataToBeUpdated = savedFavs.push(newFav);
+
+            var options = {
+               multi: false,
+               upsert: false
+           };
+           db.users.update(query, dataToBeUpdated, options)
+           sendTextMessage(sender, 'Favorite saved (new)');
+           console.log(user.favorites);
+       }
+
+       break;
+
+       case allVideoCats[i]:
+       sendVideoList(sender, allVideoCats[i]);
+       break;
+   }
+}
 }
 
 
 
 
 function sendVideoList(sender, category){
-   var allVideosInCat = db.videos.find({ category: category });
-   var elements = [];
+ var allVideosInCat = db.videos.find({ category: category });
+ var elements = [];
 
-   allVideosInCat.forEach(function(video){
+ allVideosInCat.forEach(function(video){
     elements.push(
     {
         "title":video.videoTitle,
@@ -332,7 +362,7 @@ function sendVideoList(sender, category){
 });
 
 
-   var messageData = {
+ var messageData = {
     "attachment":{
       "type":"template",
       "payload":{
