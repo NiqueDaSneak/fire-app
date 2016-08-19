@@ -274,20 +274,19 @@ function postbackHandler(sender, event){
             default:
             var user = null;
             if (db.users.find({id: sender})) {
-                user = db.users.find({id: sender});
-                user.favorites.push(db.videos.find({id: event.postback.payload}));
-
+                db.users.find({id: sender}).favorites.push(db.videos.find({id: event.postback.payload}));
+                sendTextMessage(sender, 'Favorite saved (not new)');
+                console.log(user.favorites);
             } else {
                 var newUser = {
                     id: sender,
                     favorites: []
                 }
                 db.users.save(newUser);
-                user = newUser;
+                db.users.find({id: newUser.id}).favorites.push(db.videos.find({id: event.postback.payload}));
+                sendTextMessage(sender, 'Favorite saved (new)');
+                console.log(user.favorites);
             }
-            user.favorites.push(db.videos.find({id: event.postback.payload}));
-            sendTextMessage(sender, 'Favorite saved');
-            console.log(user.favorites);
 
             break;
 
@@ -302,10 +301,10 @@ function postbackHandler(sender, event){
 
 
 function sendVideoList(sender, category){
- var allVideosInCat = db.videos.find({ category: category });
- var elements = [];
+   var allVideosInCat = db.videos.find({ category: category });
+   var elements = [];
 
- allVideosInCat.forEach(function(video){
+   allVideosInCat.forEach(function(video){
     elements.push(
     {
         "title":video.videoTitle,
@@ -333,7 +332,7 @@ function sendVideoList(sender, category){
 });
 
 
- var messageData = {
+   var messageData = {
     "attachment":{
       "type":"template",
       "payload":{
