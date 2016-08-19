@@ -341,7 +341,7 @@ function postbackHandler(sender, event){
 
 
 function userAuth(sender){
-    if (db.user.find({id: sender}) === []) {
+    if (db.users.find({id: sender}) === []) {
         var newUser = {
             id: sender,
             favorites: []
