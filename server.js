@@ -277,7 +277,7 @@ function postbackHandler(sender, event){
 
             // to make videos favorite
             default:
-            saveFav(sender);
+            saveFav(sender, event);
             break;
 
             case allVideoCats[i]:
@@ -290,7 +290,7 @@ function postbackHandler(sender, event){
 
 
 
-function saveFav(sender){
+function saveFav(sender, event){
     var query = {
         id: db.users.find({id: sender})
     }
