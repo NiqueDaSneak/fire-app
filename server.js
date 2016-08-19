@@ -253,8 +253,8 @@ function postbackHandler(sender, event){
     for (var i = 0; i < allVideoCats.length; i++) {
         switch (event.postback.payload){
             case 'START':
-            console.log(db.users.find({id: sender}));
             userAuth(sender);
+            console.log(db.users.find({id: sender}));
             // console.log(user);
             sendWelcomeMessage(sender);
             break;
