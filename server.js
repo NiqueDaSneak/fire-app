@@ -272,8 +272,23 @@ function postbackHandler(sender, event){
 
             // to make videos favorite
             default:
-            // db.videos.find({id: event.postback.payload})
-            sendTextMessage(sender, event.postback.payload);
+            var user = null;
+            if (db.users.find({id: sender})) {
+                user = db.users.find({id: sender});
+                user.favorites.push(db.videos.find({id: event.postback.payload}));
+
+            } else {
+                var newUser = {
+                    id: sender,
+                    favorites: []
+                }
+                db.users.save(newUser);
+                user = newUser;
+            }
+            user.favorites.push(db.videos.find({id: event.postback.payload}));
+            sendTextMessage(sender, 'Favorite saved');
+            console.log(user.favorites);
+
             break;
 
             case allVideoCats[i]:
@@ -287,10 +302,10 @@ function postbackHandler(sender, event){
 
 
 function sendVideoList(sender, category){
-   var allVideosInCat = db.videos.find({ category: category });
-   var elements = [];
+ var allVideosInCat = db.videos.find({ category: category });
+ var elements = [];
 
-   allVideosInCat.forEach(function(video){
+ allVideosInCat.forEach(function(video){
     elements.push(
     {
         "title":video.videoTitle,
@@ -318,7 +333,7 @@ function sendVideoList(sender, category){
 });
 
 
-   var messageData = {
+ var messageData = {
     "attachment":{
       "type":"template",
       "payload":{
@@ -457,7 +472,8 @@ function sendPrefsMessage(sender){
         user = db.users.find({id: sender})
     } else {
         var newUser = {
-            id: sender
+            id: sender,
+            favorites: []
         }
         db.users.save(newUser);
         user = newUser;
