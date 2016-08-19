@@ -347,7 +347,7 @@ function userAuth(sender){
             favorites: []
         }
         db.users.save(newUser);
-        user = newUser
+        user = db.users.find({id: newUser.id})
     } else {
         user = db.users.find({id: sender})
     }
