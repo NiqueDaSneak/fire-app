@@ -254,7 +254,7 @@ function postbackHandler(sender, event){
         switch (event.postback.payload){
             case 'START':
             console.log(db.users.find({id: sender}));
-            // userAuth(sender);
+            userAuth(sender);
             // console.log(user);
             sendWelcomeMessage(sender);
             break;
