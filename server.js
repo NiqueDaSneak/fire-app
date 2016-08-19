@@ -342,22 +342,36 @@ function postbackHandler(sender, event){
 
 
 function userAuth(sender){
-    switch (db.users.find({id: sender})){
-        case []:
-        var newUser = {
-            id: sender,
-            favorites: []
-        }
-        db.users.save(newUser);
-        console.log('if');
-        user = db.users.find({id: newUser.id});
-        break;
+    // switch (db.users.find({id: sender})){
+    //     case []:
+    //     var newUser = {
+    //         id: sender,
+    //         favorites: []
+    //     }
+    //     db.users.save(newUser);
+    //     console.log('if');
+    //     user = db.users.find({id: newUser.id});
+    //     break;
 
-        default:
-        console.log('else');
-        user = db.users.find({id: sender});
-        break;
+    //     default:
+    //     console.log('else');
+    //     user = db.users.find({id: sender});
+    //     break;
+    // }
+    var query = {
+        id: sender
+    };
+
+    var dataToBeUpdated = {
+        id: sender
     }
+
+    var options = {
+        multi: false,
+        upsert: true
+    }
+
+   user = db.users.update(query, dataToBeUpdated, options);
 }
 
 
