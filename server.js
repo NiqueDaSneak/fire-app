@@ -8,7 +8,9 @@ db.connect('db', ['videos', 'users'])
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-
+// variable to have a persistent user object throughout
+// set in userAuth function
+var user;
 
 var app = express();
 
@@ -251,6 +253,8 @@ function postbackHandler(sender, event){
     for (var i = 0; i < allVideoCats.length; i++) {
         switch (event.postback.payload){
             case 'START':
+            userAuth(sender);
+            console.log(user);
             sendWelcomeMessage(sender);
             break;
 
@@ -273,9 +277,9 @@ function postbackHandler(sender, event){
             // to make videos favorite
             default:
             
-            if (db.users.find({id: sender})) {
+            if (db.users.find({id: sender}) ) {
                 console.log('oldUser');
-                console.log(db.users.find({id: sender}))
+                console.log(db.users.find({id: sender}));
 
                //  var query = {
                //      id: sender
@@ -333,6 +337,21 @@ function postbackHandler(sender, event){
 }
 }
 
+
+
+
+function userAuth(sender){
+    if (db.user.find({id: sender}) === []) {
+        var newUser = {
+            id: sender,
+            favorites: []
+        }
+        db.user.save(newUser);
+        user = newUser
+    } else {
+        user = db.user.find({id: sender})
+    }
+}
 
 
 
