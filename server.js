@@ -347,9 +347,11 @@ function userAuth(sender){
             favorites: []
         }
         db.users.save(newUser);
-        user = db.users.find({id: newUser.id})
+        console.log('if');
+        user = db.users.find({id: newUser.id});
     } else {
-        user = db.users.find({id: sender})
+        console.log('else');
+        user = db.users.find({id: sender});
     }
 }
 
