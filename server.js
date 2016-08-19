@@ -308,6 +308,12 @@ function saveFav(sender, event){
 
      db.users.update(query, dataToBeUpdated, options);
 
+     console.log('user');
+     console.log(db.users.find({id: sender}))
+
+     console.log('favorites array:');
+     console.log(db.users.find({id: sender}).favorites);
+
      var savedFavs = db.users.find({id: sender}).favorites;
      var newFav = event.postback.payload;
 
