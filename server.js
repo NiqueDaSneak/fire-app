@@ -275,23 +275,25 @@ function postbackHandler(sender, event){
             
             if (db.users.find({id: sender})) {
 
-                var query = {
-                    id: sender
-                }
+                console.log(db.users.find({id: sender}))
 
-                var savedFavs = db.users.find({id: sender}).favorites;
+               //  var query = {
+               //      id: sender
+               //  }
 
-                var newFav = event.postback.payload;
+               //  var savedFavs = db.users.find({id: sender}).favorites;
 
-                var dataToBeUpdated = savedFavs.push(newFav);
+               //  var newFav = event.postback.payload;
 
-                var options = {
-                   multi: false,
-                   upsert: false
-               };
-               db.users.update(query, dataToBeUpdated, options);
-               sendTextMessage(sender, 'Favorite saved (not new)');
-               console.log(db.users.find({id: sender}).favorites);
+               //  var dataToBeUpdated = savedFavs.push(newFav);
+
+               //  var options = {
+               //     multi: false,
+               //     upsert: false
+               // };
+               // db.users.update(query, dataToBeUpdated, options);
+               // sendTextMessage(sender, 'Favorite saved (not new)');
+               // console.log(db.users.find({id: sender}).favorites);
            } else {
             var newUser = {
                 id: sender,
@@ -299,23 +301,26 @@ function postbackHandler(sender, event){
             }
             db.users.save(newUser);
 
-            var query = {
-                id: sender
-            }
+            console.log(db.users.find({id: db.users.find({id: newUser})}));
 
-            var savedFavs = db.users.find({id: sender}).favorites;
 
-            var newFav = event.postback.payload;
+           //  var query = {
+           //      id: sender
+           //  }
 
-            var dataToBeUpdated = savedFavs.push(newFav);
+           //  var savedFavs = db.users.find({id: sender}).favorites;
 
-            var options = {
-               multi: false,
-               upsert: false
-           };
-           db.users.update(query, dataToBeUpdated, options)
-           sendTextMessage(sender, 'Favorite saved (new)');
-           console.log(user.favorites);
+           //  var newFav = event.postback.payload;
+
+           //  var dataToBeUpdated = savedFavs.push(newFav);
+
+           //  var options = {
+           //     multi: false,
+           //     upsert: false
+           // };
+           // db.users.update(query, dataToBeUpdated, options);
+           // sendTextMessage(sender, 'Favorite saved (new)');
+           // console.log(user.favorites);
        }
 
        break;
