@@ -274,7 +274,7 @@ function postbackHandler(sender, event){
             default:
             
             if (db.users.find({id: sender})) {
-
+                console.log('oldUser');
                 console.log(db.users.find({id: sender}))
 
                //  var query = {
@@ -301,6 +301,7 @@ function postbackHandler(sender, event){
             }
             db.users.save(newUser);
 
+            console.log('newUser');
             console.log(db.users.find({id: db.users.find({id: newUser})}));
 
 
