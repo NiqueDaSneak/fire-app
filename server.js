@@ -277,64 +277,62 @@ function postbackHandler(sender, event){
 
             // to make videos favorite
             default:
-            
-            if (db.users.find({id: sender}) ) {
-                console.log('oldUser');
-                console.log(db.users.find({id: sender}));
+            saveFav(sender);
+            break;
 
-               //  var query = {
-               //      id: sender
-               //  }
-
-               //  var savedFavs = db.users.find({id: sender}).favorites;
-
-               //  var newFav = event.postback.payload;
-
-               //  var dataToBeUpdated = savedFavs.push(newFav);
-
-               //  var options = {
-               //     multi: false,
-               //     upsert: false
-               // };
-               // db.users.update(query, dataToBeUpdated, options);
-               // sendTextMessage(sender, 'Favorite saved (not new)');
-               // console.log(db.users.find({id: sender}).favorites);
-           } else {
-            var newUser = {
-                id: sender,
-                favorites: []
-            }
-            db.users.save(newUser);
-
-            console.log('newUser');
-            console.log(db.users.find({id: db.users.find({id: newUser})}));
+            case allVideoCats[i]:
+            sendVideoList(sender, allVideoCats[i]);
+            break;
+        }
+    }
+}
 
 
-           //  var query = {
-           //      id: sender
-           //  }
 
-           //  var savedFavs = db.users.find({id: sender}).favorites;
 
-           //  var newFav = event.postback.payload;
+function saveFav(sender){
+    var query = {
+        id: db.users.find({id: sender})
+    }
 
-           //  var dataToBeUpdated = savedFavs.push(newFav);
+    if (user.favorites === undefined) {
 
-           //  var options = {
-           //     multi: false,
-           //     upsert: false
-           // };
-           // db.users.update(query, dataToBeUpdated, options);
-           // sendTextMessage(sender, 'Favorite saved (new)');
-           // console.log(user.favorites);
-       }
+        var dataToBeUpdated = {
+            favorites: []
+        }
 
-       break;
+        var options = {
+         multi: false,
+         upsert: false
+     };
 
-       case allVideoCats[i]:
-       sendVideoList(sender, allVideoCats[i]);
-       break;
-   }
+     db.users.update(query, dataToBeUpdated, options);
+
+     var savedFavs = db.users.find({id: sender}).favorites;
+     var newFav = event.postback.payload;
+
+     var dataToBeUpdated = savedFavs.push(newFav);
+
+     var options = {
+         multi: false,
+         upsert: false
+     };
+     user = db.users.update(query, dataToBeUpdated, options);
+
+
+ } else {
+    var savedFavs = db.users.find({id: sender}).favorites;
+    var newFav = event.postback.payload;
+
+    var dataToBeUpdated = savedFavs.push(newFav);
+
+    var options = {
+     multi: false,
+     upsert: false
+ };
+ user = db.users.update(query, dataToBeUpdated, options);
+ sendTextMessage(sender, 'Favorite saved (not new)');
+ console.log(db.users.find({id: sender}).favorites);
 }
 }
 
@@ -342,22 +340,7 @@ function postbackHandler(sender, event){
 
 
 function userAuth(sender){
-    // switch (db.users.find({id: sender})){
-    //     case []:
-    //     var newUser = {
-    //         id: sender,
-    //         favorites: []
-    //     }
-    //     db.users.save(newUser);
-    //     console.log('if');
-    //     user = db.users.find({id: newUser.id});
-    //     break;
 
-    //     default:
-    //     console.log('else');
-    //     user = db.users.find({id: sender});
-    //     break;
-    // }
     var query = {
         id: sender
     };
@@ -371,16 +354,16 @@ function userAuth(sender){
         upsert: true
     }
 
-   user = db.users.update(query, dataToBeUpdated, options);
+    user = db.users.update(query, dataToBeUpdated, options);
 }
 
 
 
 function sendVideoList(sender, category){
- var allVideosInCat = db.videos.find({ category: category });
- var elements = [];
+   var allVideosInCat = db.videos.find({ category: category });
+   var elements = [];
 
- allVideosInCat.forEach(function(video){
+   allVideosInCat.forEach(function(video){
     elements.push(
     {
         "title":video.videoTitle,
@@ -408,7 +391,7 @@ function sendVideoList(sender, category){
 });
 
 
- var messageData = {
+   var messageData = {
     "attachment":{
       "type":"template",
       "payload":{
