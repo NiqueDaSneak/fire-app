@@ -342,7 +342,8 @@ function postbackHandler(sender, event){
 
 
 function userAuth(sender){
-    if (db.users.find({id: sender}) === []) {
+    switch (db.users.find({id: sender})){
+        case []:
         var newUser = {
             id: sender,
             favorites: []
@@ -350,9 +351,12 @@ function userAuth(sender){
         db.users.save(newUser);
         console.log('if');
         user = db.users.find({id: newUser.id});
-    } else {
+        break;
+
+        default:
         console.log('else');
         user = db.users.find({id: sender});
+        break;
     }
 }
 
