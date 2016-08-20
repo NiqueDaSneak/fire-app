@@ -277,9 +277,6 @@ function postbackHandler(sender, event){
 
             // to make videos favorite
             default:
-            console.log('user:')
-            console.log(user)
-            console.log(user.favorites)
             saveFav(sender, event);
             break;
 
@@ -297,57 +294,52 @@ function saveFav(sender, event){
     switch (db.users.find({id: sender}).favorites){
         case undefined:
         {
-        var query = {
-            id: db.users.find({id: sender})
-        }
+            var query = {
+                id: db.users.find({id: sender})
+            }
 
-        var dataToBeUpdated = {
-            favorites: []
-        }
+            var dataToBeUpdated = {
+                favorites: []
+            }
 
-        var options = {
-           multi: false,
-           upsert: true
-       };
+            var options = {
+             multi: false,
+             upsert: true
+         };
 
-       db.users.update(query, dataToBeUpdated, options);
-        }
+         db.users.update(query, dataToBeUpdated, options);
+     }
 
-       console.log('user');
-       console.log(db.users.find({id: sender}));
+     {
+         var savedFavs = db.users.find({id: sender}).favorites;
+         var newFav = event.postback.payload;
 
-       console.log('favorites array:');
-       console.log(db.users.find({id: sender}).favorites);
+         var dataToBeUpdated = savedFavs.push(newFav);
 
-       {
-       var savedFavs = db.users.find({id: sender}).favorites;
-       var newFav = event.postback.payload;
+         var options = {
+             multi: false,
+             upsert: false
+         };
+         user = db.users.update(query, dataToBeUpdated, options);
+     }
+     break;
 
-       var dataToBeUpdated = savedFavs.push(newFav);
+     default:
+     var savedFavs = db.users.find({id: sender}).favorites;
+     var newFav = event.postback.payload;
 
-       var options = {
-           multi: false,
-           upsert: false
-       };
-       user = db.users.update(query, dataToBeUpdated, options);
-        }
-       break;
+     var dataToBeUpdated = savedFavs.push(newFav);
 
-       default:
-       var savedFavs = db.users.find({id: sender}).favorites;
-       var newFav = event.postback.payload;
-
-       var dataToBeUpdated = savedFavs.push(newFav);
-
-       var options = {
-           multi: false,
-           upsert: false
-       };
-       user = db.users.update(query, dataToBeUpdated, options);
-       sendTextMessage(sender, 'Favorite saved (not new)');
-       console.log(db.users.find({id: sender}).favorites);
-       break;
-   }
+     var options = {
+         multi: false,
+         upsert: false
+     };
+     user = db.users.update(query, dataToBeUpdated, options);
+     sendTextMessage(sender, 'Favorite saved (not new)');
+     console.log(db.users.find({id: sender}).favorites);
+     break;
+     
+    }
 }
 
 
@@ -355,31 +347,37 @@ function saveFav(sender, event){
 
 function userAuth(sender){
 
-    var query = {
-        id: sender
-    };
+    if (db.users.find({id; sender}) === undefined) {
+        var query = {
+            id: sender
+        };
 
-    var dataToBeUpdated = {
-        id: sender,
+        var dataToBeUpdated = {
+            id: sender,
+            favorites: []
+        }
 
-    }
+        var options = {
+            multi: false,
+            upsert: true
+        }
 
-    var options = {
-        multi: false,
-        upsert: true
-    }
+        db.users.update(query, dataToBeUpdated, options);
+        user = db.users.find({id: sender});
+    } else {
 
-    db.users.update(query, dataToBeUpdated, options);
     user = db.users.find({id: sender});
+
+    }
 }
 
 
 
 function sendVideoList(sender, category){
- var allVideosInCat = db.videos.find({ category: category });
- var elements = [];
+   var allVideosInCat = db.videos.find({ category: category });
+   var elements = [];
 
- allVideosInCat.forEach(function(video){
+   allVideosInCat.forEach(function(video){
     elements.push(
     {
         "title":video.videoTitle,
@@ -407,7 +405,7 @@ function sendVideoList(sender, category){
 });
 
 
- var messageData = {
+   var messageData = {
     "attachment":{
       "type":"template",
       "payload":{
