@@ -277,6 +277,9 @@ function postbackHandler(sender, event){
 
             // to make videos favorite
             default:
+            console.log('user:')
+            console.log(user)
+            console.log(user.favorites)
             saveFav(sender, event);
             break;
 
@@ -353,7 +356,8 @@ function userAuth(sender){
     };
 
     var dataToBeUpdated = {
-        id: sender
+        id: sender,
+
     }
 
     var options = {
