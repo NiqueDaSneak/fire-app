@@ -254,7 +254,7 @@ function postbackHandler(sender, event){
         switch (event.postback.payload){
             case 'START':
             userAuth(sender);
-            console.log(db.users.find({id: sender}));
+            // console.log(db.users.find({id: sender}));
             // console.log(user);
             sendWelcomeMessage(sender);
             break;
@@ -347,7 +347,7 @@ function saveFav(sender, event){
 
 function userAuth(sender){
 
-    if (db.users.find({id: sender}) === undefined) {
+    if (db.users.find({id: sender}) === []) {
         var query = {
             id: sender
         };
@@ -364,6 +364,8 @@ function userAuth(sender){
 
         db.users.update(query, dataToBeUpdated, options);
         user = db.users.find({id: sender});
+        console.log('sender:');
+        console.log(sender);
         console.log('created user:');
         console.log(user);
     } else {
