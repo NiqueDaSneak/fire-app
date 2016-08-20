@@ -365,7 +365,8 @@ function userAuth(sender){
         upsert: true
     }
 
-    user = db.users.update(query, dataToBeUpdated, options);
+    db.users.update(query, dataToBeUpdated, options);
+    user = db.users.find({id: sender});
 }
 
 
