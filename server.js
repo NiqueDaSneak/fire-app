@@ -338,7 +338,7 @@ function saveFav(sender, event){
      sendTextMessage(sender, 'Favorite saved (not new)');
      console.log(db.users.find({id: sender}).favorites);
      break;
-     
+
     }
 }
 
@@ -347,7 +347,7 @@ function saveFav(sender, event){
 
 function userAuth(sender){
 
-    if (db.users.find({id; sender}) === undefined) {
+    if (db.users.find({id: sender}) === undefined) {
         var query = {
             id: sender
         };
