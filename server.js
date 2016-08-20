@@ -294,14 +294,14 @@ function postbackHandler(sender, event){
 
 
 function saveFav(sender, event){
-    switch (user.favorites){
+    switch (db.users.find({id: sender}).favorites){
         case undefined:
         var query = {
             id: db.users.find({id: sender})
         }
 
         var dataToBeUpdated = {
-            favorites: []
+            db.users.find({id: sender}).favorites = [];
         }
 
         var options = {
