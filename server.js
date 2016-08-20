@@ -364,10 +364,12 @@ function userAuth(sender){
 
         db.users.update(query, dataToBeUpdated, options);
         user = db.users.find({id: sender});
+        console.log('created user:');
+        console.log(user);
     } else {
-
-    user = db.users.find({id: sender});
-
+        user = db.users.find({id: sender});
+        console.log('found user:');
+        console.log(user);
     }
 }
 
