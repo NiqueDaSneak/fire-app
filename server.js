@@ -302,7 +302,7 @@ function saveFav(sender, event){
         }
 
         var dataToBeUpdated = {
-            favorites: [];
+            favorites: []
         }
 
         var options = {
