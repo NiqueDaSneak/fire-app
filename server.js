@@ -303,7 +303,7 @@ function saveFav(sender, event){
 
         var options = {
            multi: false,
-           upsert: false
+           upsert: true
        };
 
        db.users.update(query, dataToBeUpdated, options);
