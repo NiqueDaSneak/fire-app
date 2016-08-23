@@ -276,9 +276,9 @@ function postbackHandler(sender, event){
             break;
 
             // to make videos favorite
-            default:
-            saveFav(sender, event);
-            break;
+            // default:
+            // saveFav(sender, event);
+            // break;
 
             case allVideoCats[i]:
             sendVideoList(sender, allVideoCats[i]);
@@ -290,90 +290,90 @@ function postbackHandler(sender, event){
 
 
 
-function saveFav(sender, event){
-    switch (db.users.find({id: sender}).favorites){
-        case undefined:
-        {
-            var query = {
-                id: db.users.find({id: sender})
-            }
+// function saveFav(sender, event){
+//     switch (db.users.find({id: sender}).favorites){
+//         case undefined:
+//         {
+//             var query = {
+//                 id: db.users.find({id: sender})
+//             }
 
-            var dataToBeUpdated = {
-                favorites: []
-            }
+//             var dataToBeUpdated = {
+//                 favorites: []
+//             }
 
-            var options = {
-             multi: false,
-             upsert: true
-         };
+//             var options = {
+//              multi: false,
+//              upsert: true
+//          };
 
-         db.users.update(query, dataToBeUpdated, options);
-     }
+//          db.users.update(query, dataToBeUpdated, options);
+//      }
 
-     {
-         var savedFavs = db.users.find({id: sender}).favorites;
-         var newFav = event.postback.payload;
+//      {
+//          var savedFavs = db.users.find({id: sender}).favorites;
+//          var newFav = event.postback.payload;
 
-         var dataToBeUpdated = savedFavs.push(newFav);
+//          var dataToBeUpdated = savedFavs.push(newFav);
 
-         var options = {
-             multi: false,
-             upsert: false
-         };
-         user = db.users.update(query, dataToBeUpdated, options);
-     }
-     break;
+//          var options = {
+//              multi: false,
+//              upsert: false
+//          };
+//          user = db.users.update(query, dataToBeUpdated, options);
+//      }
+//      break;
 
-     default:
-     var savedFavs = db.users.find({id: sender}).favorites;
-     var newFav = event.postback.payload;
+//      default:
+//      var savedFavs = db.users.find({id: sender}).favorites;
+//      var newFav = event.postback.payload;
 
-     var dataToBeUpdated = savedFavs.push(newFav);
+//      var dataToBeUpdated = savedFavs.push(newFav);
 
-     var options = {
-         multi: false,
-         upsert: false
-     };
-     user = db.users.update(query, dataToBeUpdated, options);
-     sendTextMessage(sender, 'Favorite saved (not new)');
-     console.log(db.users.find({id: sender}).favorites);
-     break;
+//      var options = {
+//          multi: false,
+//          upsert: false
+//      };
+//      user = db.users.update(query, dataToBeUpdated, options);
+//      sendTextMessage(sender, 'Favorite saved (not new)');
+//      console.log(db.users.find({id: sender}).favorites);
+//      break;
 
-    }
-}
-
-
+//     }
+// }
 
 
-function userAuth(sender){
 
-    if (db.users.find({id: sender}) === []) {
-        var query = {
-            id: sender
-        };
 
-        var dataToBeUpdated = {
-            id: sender,
-            favorites: []
-        }
+// function userAuth(sender){
 
-        var options = {
-            multi: false,
-            upsert: true
-        }
+//     if (db.users.find({id: sender}) === []) {
+//         var query = {
+//             id: sender
+//         };
 
-        db.users.update(query, dataToBeUpdated, options);
-        user = db.users.find({id: sender});
-        console.log('sender:');
-        console.log(sender);
-        console.log('created user:');
-        console.log(user);
-    } else {
-        user = db.users.find({id: sender});
-        console.log('found user:');
-        console.log(user);
-    }
-}
+//         var dataToBeUpdated = {
+//             id: sender,
+//             favorites: []
+//         }
+
+//         var options = {
+//             multi: false,
+//             upsert: true
+//         }
+
+//         db.users.update(query, dataToBeUpdated, options);
+//         user = db.users.find({id: sender});
+//         console.log('sender:');
+//         console.log(sender);
+//         console.log('created user:');
+//         console.log(user);
+//     } else {
+//         user = db.users.find({id: sender});
+//         console.log('found user:');
+//         console.log(user);
+//     }
+// }
 
 
 
@@ -393,11 +393,11 @@ function sendVideoList(sender, category){
             "title":"Watch Video",
             "url": video.url
         },
-        {
-            "type":"postback",
-            "title":"Add to Favorites",
-            "payload": video.id 
-        },
+        // {
+        //     "type":"postback",
+        //     "title":"Add to Favorites",
+        //     "payload": video.id 
+        // },
         {
             "type":"web_url",
             "title":"Share on Facebook",
