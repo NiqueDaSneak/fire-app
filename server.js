@@ -510,11 +510,11 @@ function sendWelcomeMessage(sender) {
                     "title":"Show video categories",
                     "payload":"SHOW_CAT"
                 },
-                {
-                    "type":"postback",
-                    "title":"Manage my settings",
-                    "payload":"PREFS"
-                }
+                // {
+                //     "type":"postback",
+                //     "title":"Manage my settings",
+                //     "payload":"PREFS"
+                // }
                 ]
             }
         }
@@ -564,16 +564,16 @@ function sendPrefsMessage(sender){
                 "template_type":"button",
                 "text":"Would you like me to start sending you videos regularly, or would you rather just see all of your favorite videos?",
                 "buttons":[
-                {
-                    "type":"postback",
-                    "title":"Schedule videos",
-                    "payload":"SCHEDULE"
-                },
-                {
-                    "type":"postback",
-                    "title":"Show favorites",
-                    "payload":"FAV"
-                },
+                // {
+                //     "type":"postback",
+                //     "title":"Schedule videos",
+                //     "payload":"SCHEDULE"
+                // },
+                // {
+                //     "type":"postback",
+                //     "title":"Show favorites",
+                //     "payload":"FAV"
+                // },
                 {
                     "type":"postback",
                     "title":"Show video categories",
