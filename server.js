@@ -32,8 +32,7 @@ app.use(bodyParser.json());
 
 // LANDING PAGE
 app.get('/', function (req, res) {
-    // res.render('index');
-    res.send('Hello World! This is the bot\'s root endpoint!');
+    res.render('index-jade');
 });
 
 
