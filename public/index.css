@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(grey, white); /* Standard syntax */
+
+}
+
+.logo-title {
+    font-size: 10vh;
+}
+
+.logo-holder {
+    text-align: center;
+    padding-top: 10vh; 
+}
+
+input {
+    border: 1px solid #bbb;
+    font-size: 2.9vh;
+}
+
+.email-input {
+    height: 5vh;
+    width: 40vh;
+    margin-bottom: 5vh;
+}
+
+.email-submit {
+    height: 8vh;
+    width: 18vh;
+    font-size: 3vh;
+    margin-bottom: 10vh;
+}
+
+form {
+    text-align: center;
+    padding-top: 10vh; 
+}
+
+.phone {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 55%;
+    padding: 3.5vh;
+}
+
+.padding-bottom {
+    padding-bottom: 10vh;
+}
+
+.copy {
+    text-align: center;
+    margin-left: 6vh;
+    margin-right: 6vh;
+}
+
+.icon {
+    width: 5vh;
+}
+
+.icon-text {
+    display: flex;
+    align-items: center;
+    padding-bottom: 1vh;
+}
+
+.icon-holder {
+    display: flex;
+    flex-direction: column;
+    padding: 4vh;
+    margin-left: 15%;
+    font-size: 2.5vh;
+}
+
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media only screen and (min-width: 769px) {
+    body {
+        margin: 0;
+    }
+}
+
