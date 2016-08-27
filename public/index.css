@@ -84,5 +84,9 @@ form {
     body {
         margin: 0;
     }
+
+    .phone {
+        width: 25%;
+    }
 }
 
