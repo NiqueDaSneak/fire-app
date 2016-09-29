@@ -265,6 +265,7 @@ function postbackHandler(sender, event){
             break;
 
             case 'SHOW_CAT':
+            sendTextMessage(send, "Choose a category:")
             sendCategories(sender);
             break;
 
@@ -473,8 +474,6 @@ function sendCategories(sender){
             "type":"template",
             "payload":{
                 "template_type":"generic",
-                "text":"Select a category:",
-                // "buttons": buttons
                 "elements:" elements
             }
         }
