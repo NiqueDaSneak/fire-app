@@ -1,4 +1,4 @@
-x"use strict"
+"use strict"
 
 var express = require('express');
 var request = require('request');
@@ -103,7 +103,7 @@ function makeID() {
     s4() + '-' + s4() + s4() + s4();
 }
 
-function extractYoutubeID(link) { 
+function extractYoutubeID(link) {
 
     if( link.match(/(youtube.com)/) ){
         var split_c = "v=";
@@ -397,13 +397,13 @@ function sendVideoList(sender, category){
         // {
         //     "type":"postback",
         //     "title":"Add to Favorites",
-        //     "payload": video.id 
+        //     "payload": video.id
         // },
         {
             "type":"web_url",
             "title":"Share on Facebook",
             "url":"https://www.facebook.com/sharer/sharer.php?u=https%3A//www.youtube.com/watch?v=" + video.id
-        }                
+        }
         ]
     }
     )
@@ -442,7 +442,7 @@ request({
 
 function sendCategories(sender){
     var allVideoCats = [];
-    var buttons = [];
+    var elements = [];
 
 
     db.videos.find().forEach(function(video){
@@ -454,12 +454,17 @@ function sendCategories(sender){
     });
 
     allVideoCats.forEach(function(category){
-        buttons.push(
-        {
-            "type":"postback",
-            "title": category.toUpperCase(),
-            "payload": category 
-        }
+        elements.push(
+          {
+              "title": category,
+              "buttons":[
+                {
+                    "type":"postback",
+                    "title": category.toUpperCase(),
+                    "payload": category
+                }
+              ]
+          }
         )
     });
 
@@ -467,9 +472,10 @@ function sendCategories(sender){
         "attachment":{
             "type":"template",
             "payload":{
-                "template_type":"button",
-                "text":"Welcome to Fire! What would you like to watch?",
-                "buttons": buttons
+                "template_type":"generic",
+                "text":"Select a category:",
+                // "buttons": buttons
+                "elements:" elements
             }
         }
     };
