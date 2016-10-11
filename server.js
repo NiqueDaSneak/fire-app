@@ -265,7 +265,7 @@ function postbackHandler(sender, event){
             break;
 
             case 'SHOW_CAT':
-            sendTextMessage(send, "Choose a category:");
+            sendTextMessage(sender, "Choose a category:");
             sendCategories(sender);
             break;
 
