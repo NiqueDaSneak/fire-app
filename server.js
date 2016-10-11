@@ -261,11 +261,11 @@ function postbackHandler(sender, event){
             break;
 
             case 'LEARN_MORE':
-            sendTextMessage(sender, "This is the learn more text!")
+            sendTextMessage(sender, "This is the learn more text!");
             break;
 
             case 'SHOW_CAT':
-            sendTextMessage(send, "Choose a category:")
+            sendTextMessage(send, "Choose a category:");
             sendCategories(sender);
             break;
 
@@ -386,7 +386,7 @@ function sendVideoList(sender, category){
    allVideosInCat.forEach(function(video){
     elements.push(
     {
-        "title":video.videoTitle,
+        "title": video.videoTitle,
         "image_url":"http://img.youtube.com/vi/" + video.id + "/0.jpg",
         "subtitle":video.videoDescription,
         "buttons":[
@@ -456,12 +456,13 @@ function sendCategories(sender){
 
     allVideoCats.forEach(function(category){
         elements.push(
+          // ERROR IS IN THIS OBJECT
           {
               "title": category,
               "buttons":[
                 {
                     "type":"postback",
-                    "title": category.toUpperCase(),
+                    "title": "This one!",
                     "payload": category
                 }
               ]
@@ -474,7 +475,7 @@ function sendCategories(sender){
             "type":"template",
             "payload":{
                 "template_type":"generic",
-                "elements:" elements
+                "elements": elements
             }
         }
     };
