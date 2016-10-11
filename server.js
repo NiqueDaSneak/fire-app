@@ -124,9 +124,9 @@ function submitVideo(event) {
     var eventCat;
 
     if (Array.isArray(event.category) === true) {
-        eventCat = event.category[0].toLowerCase()
+        eventCat = event.category[0].toUpperCase();
     } else {
-        eventCat = event.category.toLowerCase()
+        eventCat = event.category.toUpperCase();
     }
 
     var newVideo = {
@@ -456,14 +456,13 @@ function sendCategories(sender){
 
     allVideoCats.forEach(function(category){
         elements.push(
-          // ERROR IS IN THIS OBJECT
           {
               "title": category,
               "buttons":[
                 {
                     "type":"postback",
                     "title": "This one!",
-                    "payload": category.toUpperCase()
+                    "payload": category
                 }
               ]
           }
