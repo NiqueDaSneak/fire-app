@@ -463,7 +463,7 @@ function sendCategories(sender){
                 {
                     "type":"postback",
                     "title": "This one!",
-                    "payload": category
+                    "payload": category.toUpperCase()
                 }
               ]
           }
