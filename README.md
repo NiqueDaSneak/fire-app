@@ -1,0 +1,1 @@
+This application is a Facebook Messenger Chatbot that serves as a library for motivational YouTube videos. Users are given categories of videos to choose from, and can choose from a scrollable list under each category. Users can also add favorite videos, as well as submit videos to the platform for review and addition to the catalog.
